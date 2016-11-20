@@ -62,16 +62,7 @@ class CalculatePredictors {
             // Calculating file complexity
             for (Period p : periods) {
 
-                String periodsFolderPath = scatteringFolderPath + projectName + "/" + periodLength
-                        + "/periodsData_1/";
-
-                File periodsFolder = new File(periodsFolderPath);
-                periodsFolder.mkdirs();
-                String periodString = Integer.toString(p.getId());
-                if (p.getId() < 10) {
-                    periodString = "0" + p.getId();
-                }
-                File periodData = new File(periodsFolderPath + periodString + ".csv");
+                File periodData = new File(baseFolderPath + projectName + "/predictors.csv");
                 PrintWriter pw1 = new PrintWriter(periodData);
 
                 pw1.write("name,"

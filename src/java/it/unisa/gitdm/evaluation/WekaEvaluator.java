@@ -5,6 +5,8 @@
  */
 package it.unisa.gitdm.evaluation;
 
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +22,7 @@ import weka.core.converters.ConverterUtils.DataSource;
  */
 public class WekaEvaluator {
 
-    public WekaEvaluator(String projectName, Classifier classifier, String filePath, String classifierName, String modelName) {
+    public WekaEvaluator(String baseFolderPath, String projectName, Classifier classifier, String classifierName, String modelName) {
         // READ FILE
         /*CODICE VECCHIO
         try {
@@ -44,18 +46,19 @@ public class WekaEvaluator {
             Logger.getLogger(WekaEvaluator.class.getName()).log(Level.SEVERE, null, ex);
         } 
         CODICE VECCHIO*/
+        String filePath = baseFolderPath + projectName + "/predictors.csv";
         try {
             DataSource source = new DataSource(filePath);
             Instances instances = source.getDataSet();
             instances.setClassIndex(instances.numAttributes() - 1);
             System.out.println("Numero istanze: " + instances.size());
-            evaluateModel(projectName, classifier, instances, modelName, classifierName);
+            evaluateModel(baseFolderPath, projectName, classifier, instances, modelName, classifierName);
         } catch (Exception ex) {
             Logger.getLogger(WekaEvaluator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private static void evaluateModel(String projectName, Classifier pClassifier, Instances pInstances, String pModelName, String pClassifierName) throws Exception {
+    private static void evaluateModel(String baseFolderPath, String projectName, Classifier pClassifier, Instances pInstances, String pModelName, String pClassifierName) throws Exception {
 
         // other options
         int folds = 10;
@@ -127,6 +130,13 @@ public class WekaEvaluator {
 
         double fmeasure = 2 * ((eval.precision(positiveValueIndexOfClassFeature) * eval.recall(positiveValueIndexOfClassFeature))
                 / (eval.precision(positiveValueIndexOfClassFeature) + eval.recall(positiveValueIndexOfClassFeature)));
+        File wekaOutput = new File(baseFolderPath + projectName + "/predictors.csv");
+        PrintWriter pw1 = new PrintWriter(wekaOutput);
+
+        pw1.write(accuracy + ";" + eval.precision(positiveValueIndexOfClassFeature) + ";"
+                + eval.recall(positiveValueIndexOfClassFeature) + ";" + fmeasure + ";" + eval.areaUnderROC(positiveValueIndexOfClassFeature));
+        
+        
         System.out.println(projectName + ";" + pClassifierName + ";" + pModelName + ";" + eval.numTruePositives(positiveValueIndexOfClassFeature) + ";"
                 + eval.numFalsePositives(positiveValueIndexOfClassFeature) + ";" + eval.numFalseNegatives(positiveValueIndexOfClassFeature) + ";"
                 + eval.numTrueNegatives(positiveValueIndexOfClassFeature) + ";" + accuracy + ";" + eval.precision(positiveValueIndexOfClassFeature) + ";"
