@@ -106,6 +106,7 @@ public class BuildModelServlet extends HttpServlet {
             System.out.println(s);
             metrics.add(new Metric(s));
         }
+        
         System.out.println(metrics);
         MyClassifier classifier = ClassifierBuilder.buildClassifier(request.getParameterValues("classifier")[0]);
         System.out.println(classifier);
