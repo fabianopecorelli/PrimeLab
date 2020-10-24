@@ -8,7 +8,9 @@
  */
 
 (function($) {
-
+                      var flag1 = $("input#All_CKMetrics").is("checked");
+                var flag2 = $("input#all_Process").is("checked");
+                var flag3 = $("input#all_Scattering").is("checked");
   // Cached vars
   var _iCheck = 'iCheck',
     _iCheckHelper = _iCheck + '-helper',
@@ -32,7 +34,8 @@
 
   // Plugin init
   $.fn[_iCheck] = function(options, fire) {
-
+//      console.log(options);
+//      console.log("fire: " + fire);
     // Walker
     var handle = 'input[type="' + _checkbox + '"], input[type="' + _radio + '"]',
       stack = $(),
@@ -63,7 +66,7 @@
         if (options == 'destroy') {
           tidy(self, 'ifDestroyed');
         } else {
-          operate(self, true, options);
+          operate(self, true, options, 0);
         }
 
         // Fire method's callback
@@ -184,7 +187,7 @@
         !!settings.inheritClass && parent[_add](node.className || '');
         !!settings.inheritID && id && parent.attr('id', _iCheck + '-' + id);
         parent.css('position') == 'static' && parent.css('position', 'relative');
-        operate(self, true, _update);
+        operate(self, true, _update, 0);
 
         // Label events
         if (label.length) {
@@ -200,8 +203,8 @@
                 if ($(event.target).is('a')) {
                   return;
                 }
-                operate(self, false, true);
-
+                operate(self, false, true, 0);
+                
               // Hover state
               } else if (labelHover) {
 
@@ -267,8 +270,41 @@
 
             // Click
             if (type == _click) {
-              operate(self, false, true);
+              operate(self, false, true, 0);
+              console.log("click");
+              console.log(self);
 
+              if(self.attr("id") === "all_CKMetrics") {
+                  if(flag1) {
+                    offCKMetrics(self);
+                    flag1 = false;
+                } else {
+                    onCKMetrics(self);
+                    flag1 = true;
+                }
+            }
+            if(self.attr("id") === "all_Process") {
+            if(flag2) {
+                  offProcess(self);
+                  flag2 = false;
+                  console.log(flag2);
+              } else {
+                  onProcess(self);
+                  flag2 = true;
+                  console.log(flag2);
+              }
+            }  
+
+              if(self.attr("id") === "all_Scattering") {
+                  if(flag3) {
+                    offScattering(self);
+                    flag3 = false;
+                } else {
+                    onScattering(self);
+                    flag3 = true;
+                }
+              }
+              
             // Active and hover states
             } else {
 
@@ -305,7 +341,24 @@
   };
 
   // Do something with inputs
-  function operate(input, direct, method) {
+  function operate(input, direct, method, i) {
+//      console.log(input);
+//      console.log("direct: " + direct);
+//      console.log("method: " + method);
+//    if(input.attr("id") === "all_CKMetrics") {
+//        
+//        for(var i = 0; i < 10; i++) {
+//            operate($("input#CKMetrics"), direct, method, i);
+//        }
+//        console.log($("input#CKMetrics"));
+//    }
+//    if(input.attr("id") === "all_Process") {
+//        operate($("input#Process"), direct, method, i)
+//    }
+//    if(input.attr("id") === "all_Scattering") {
+//        operate($("input#Scattering"), direct, method, i)
+//    }
+   
     var node = input[0],
       state = /er/.test(method) ? _indeterminate : /bl/.test(method) ? _disabled : _checked,
       active = method == _update ? {
@@ -344,19 +397,112 @@
       // Toggle checked state
       if (active) {
         if (node[_type] !== _radio) {
+            console.log("off input state " + state);
+            console.log(node);
           off(input, state);
         }
       } else {
+          //console.log("on input state " + state);
         on(input, state);
       }
     }
   }
 
-  // Add checked, disabled or indeterminate state
+function onCKMetrics(input) {
+    if(input.attr("id") === "all_CKMetrics") {
+        
+        for(var i = 0; i < 10; i++) {
+            on($("input#CKMetrics").eq(i), _checked);
+        }
+        //console.log($("input#CKMetrics"));
+    }
+}
+
+function onProcess(input) {
+    if(input.attr("id") === "all_Process") {
+        for(var i = 0; i < 3; i++){
+            on($("input#Process").eq(i), _checked);
+        }
+        
+    }
+}
+function onScattering(input) {
+    if(input.attr("id") === "all_Scattering") {
+        for(var i = 0; i < 2; i++) {
+            on($("input#Scattering").eq(i), _checked);
+        }
+        
+    }
+}
+function offCKMetrics(input) {
+    if(input.attr("id") === "all_CKMetrics") {
+        for(var i = 0; i < 10; i++) {
+            off($("input#CKMetrics").eq(i), _checked);
+        }
+        
+    }
+}
+function offProcess(input) {
+    if(input.attr("id") === "all_Process") {
+        for(var i = 0; i < 3; i++) {
+            off($("input#Process").eq(i), _checked);
+        }
+        
+    }
+}
+function offScattering(input) {
+    if(input.attr("id") === "all_Scattering") {
+        for(var i = 0; i < 2; i++) {
+            off($("input#Scattering").eq(i), _checked);
+        }
+        
+    }
+}
+  function onAll(input) {
+      if(input.attr("id") === "all_CKMetrics") {
+        
+        for(var i = 0; i < 10; i++) {
+            on($("input#CKMetrics").eq(i), _checked);
+        }
+        //console.log($("input#CKMetrics"));
+    }
+    if(input.attr("id") === "all_Process") {
+        for(var i = 0; i < 3; i++){
+            on($("input#Process").eq(i), _checked);
+        }
+        
+    }
+    if(input.attr("id") === "all_Scattering") {
+        for(var i = 0; i < 2; i++) {
+            on($("input#Scattering").eq(i), _checked);
+        }
+        
+    }
+  }
+  
+  function offAll(input) {
+          if(input.attr("id") === "all_CKMetrics") {
+        for(var i = 0; i < 10; i++) {
+            off($("input#CKMetrics").eq(i), _checked);
+        }
+        
+    }
+    if(input.attr("id") === "all_Process") {
+        for(var i = 0; i < 3; i++) {
+            off($("input#Process").eq(i), _checked);
+        }
+        
+    }
+    if(input.attr("id") === "all_Scattering") {
+        for(var i = 0; i < 2; i++) {
+            off($("input#Scattering").eq(i), _checked);
+        }
+        
+    }
+  }
+    // Add checked, disabled or indeterminate state
   function on(input, state, keep) {
-      if($("input#all_CKMetrics").is(":checked")) {
-          console.log("ok");
-      }
+    
     var node = input[0],
       parent = input.parent(),
       checked = state == _checked,

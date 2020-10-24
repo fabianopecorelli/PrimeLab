@@ -260,14 +260,14 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="all" id="all_metrics" value="CK Metrics" class="flat">
+                                                                    <input type="checkbox" name="all" id="all_Process"_metrics" value="" class="flat">
                                                                     <label class="custom-control-label" for="check1">All</label>
                                                                   </div>
                                                                 </li>
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" value="numberOfChanges" required="required" class="flat" <% if(metricOfModel.contains("numberOfChanges")) {
+                                                                    <input type="checkbox" name="metrics" id="Process" value="numberOfChanges" required="required" class="flat" <% if(metricOfModel.contains("numberOfChanges")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check2">Number of Changes</label>
@@ -276,7 +276,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" value="numberOfCommittors" required="required" class="flat" <% if(metricOfModel.contains("numberOfCommittors")) {
+                                                                    <input type="checkbox" name="metrics" id="Process" value="numberOfCommittors" required="required" class="flat" <% if(metricOfModel.contains("numberOfCommittors")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check4">Number of Committors</label>
@@ -285,7 +285,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" value="numberOfFix" required="required" class="flat" <% if(metricOfModel.contains("numberOfFix")) {
+                                                                    <input type="checkbox" name="metrics" id="Process" value="numberOfFix" required="required" class="flat" <% if(metricOfModel.contains("numberOfFix")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check4">Number of Fix</label>
@@ -299,14 +299,14 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="all" id="all_metrics" value="CK Metrics" class="flat">
+                                                                    <input type="checkbox" name="all" id="all_Scattering" value="" class="flat">
                                                                     <label class="custom-control-label" for="check1">All</label>
                                                                   </div>
                                                                 </li>
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" value="structuralScattering" required="required" class="flat" <% if(metricOfModel.contains("structuralScattering")) {
+                                                                    <input type="checkbox" name="metrics" id="Scattering" value="structuralScattering" required="required" class="flat" <% if(metricOfModel.contains("structuralScattering")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check1">Structural Scattering</label>
@@ -315,7 +315,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" value="semanticScattering" required="required" class="flat" <% if(metricOfModel.contains("semanticScattering")) {
+                                                                    <input type="checkbox" name="metrics" id="Scattering" value="semanticScattering" required="required" class="flat" <% if(metricOfModel.contains("semanticScattering")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check2">Semantic Scattering</label>
@@ -660,6 +660,9 @@
         TableManageButtons.init();
         //modal
         $('#newPred').on('click', function () {
+            /*if ($("input#CKMetrics").is("checked")) {
+                console.log("ok");
+            }*/
             mySubmit();
         });
         //message
@@ -677,6 +680,11 @@
                 //$("#success-alert").alert('close');
             }, 2000);
             }
+        });
+        
+        $("div.custom-checkbox").on("change", function() {
+            console.log("ok");
+            //checked
         });
     });
 </script>

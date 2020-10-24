@@ -149,7 +149,7 @@ public class BuildModelServlet extends HttpServlet {
             session.setAttribute("recall", eval.getEvaluationSummary().getRecall());
             session.setAttribute("fmeasure", eval.getEvaluationSummary().getFmeasure());
             session.setAttribute("areaUnderROC", eval.getEvaluationSummary().getAreaUnderRoc());
-            session.setAttribute("modello", model);
+            session.setAttribute("modello", inputModel);
             session.setAttribute("predictors", eval.getAnalyzedClasses());
             session.setAttribute("issueTracker", issueTracker);
             ServletContext sc = getServletContext();
