@@ -72,30 +72,189 @@
                             </div>
                         </div>
                         <div class="ln_solid"></div>
+<!--                        <div class="container">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Select metrics: <span class="required">*</span>
+                            <div class="row">
+                              <div class="col-sm">
+                                  <label class="">CK Metrics</label>
+                                  <div class="checkbox">
+                                    <label class="">
+                                        <input type="checkbox" name="all" id="all" value="CK Metrics" required="required" class="flat" checked="checked"> All
+                                    </label>
+                                  </div>
+                                  <div class="checkbox">
+                                      <label class="">
+                                          <input type="checkbox" name="metrics" value="WMC" required="required" class="flat" checked="checked"> WMC
+                                      </label>
+                                  </div>
+                              </div>
+                              <div class="col-sm">
+                                One of three columns
+                              </div>
+                              <div class="col-sm">
+                                One of three columns
+                              </div>
+                            </div>
+                        </div>-->
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Select metrics: <span class="required">*</span>
                             </label>
                             <div  class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="col-md-3">
-                                    <div class="checkbox">
+                                    <label>CK Metrics</label>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                          <!-- Default checked -->
+                                          <div class="custom-control custom-checkbox">
+                                              <input type="checkbox" name="all" id="all_CKMetrics" value="" class="flat">
+                                            <label class="" for="check1">All</label>
+                                          </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                          <!-- Default checked -->
+                                          <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="metrics" id="CKMetrics" value="WMC" required="required" class="flat" checked="checked">
+                                            <label class="custom-control-label" for="check2">WMC</label>
+                                          </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                          <!-- Default checked -->
+                                          <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="metrics" id="CKMetrics" value="DIT" required="required" class="flat" checked="checked">
+                                            <label class="custom-control-label" for="check3">DIT</label>
+                                          </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                          <!-- Default checked -->
+                                          <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="metrics" id="CKMetrics" value="RFC" required="required" class="flat" checked="checked">
+                                            <label class="custom-control-label" for="check4">RFC</label>
+                                          </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                          <!-- Default checked -->
+                                          <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="metrics" id="CKMetrics" value="NOC" required="required" class="flat" checked="checked">
+                                            <label class="custom-control-label" for="check5">NOC</label>
+                                          </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                          <!-- Default checked -->
+                                          <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="metrics" id="CKMetrics" value="CBO" required="required" class="flat" checked="checked">
+                                            <label class="custom-control-label" for="check5">CBO</label>
+                                          </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                          <!-- Default checked -->
+                                          <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="metrics" id="CKMetrics" value="LCOM" required="required" class="flat" checked="checked">
+                                            <label class="custom-control-label" for="check5">LCOM</label>
+                                          </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                          <!-- Default checked -->
+                                          <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="metrics" id="CKMetrics" value="NOA" required="required" class="flat" checked="checked">
+                                            <label class="custom-control-label" for="check5">NOA</label>
+                                          </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                          <!-- Default checked -->
+                                          <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="metrics" id="CKMetrics" value="LOC" required="required" class="flat" checked="checked">
+                                            <label class="custom-control-label" for="check5">LOC</label>
+                                          </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                          <!-- Default checked -->
+                                          <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="metrics" id="CKMetrics" value="NOM" required="required" class="flat" checked="checked">
+                                            <label class="custom-control-label" for="check5">NOM</label>
+                                          </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                          <!-- Default checked -->
+                                          <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="metrics" id="CKMetrics" value="NOO" required="required" class="flat" checked="checked">
+                                            <label class="custom-control-label" for="check5">NOO</label>
+                                          </div>
+                                        </li>
+                                      </ul>
+<!--                                    <div class="checkbox">
                                         <label class="">
                                             <input type="checkbox" name="metrics" value="CK Metrics" required="required" class="flat" checked="checked"> CK metrics
                                         </label>
-                                    </div>
+                                    </div>-->
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="checkbox">
+                                <div class="col-md-4">
+                                    <label>Process</label>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                          <!-- Default checked -->
+                                          <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="all" id="all" value="CK Metrics" class="flat" checked="checked">
+                                            <label class="custom-control-label" for="check1">All</label>
+                                          </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                          <!-- Default checked -->
+                                          <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="metrics" value="numberOfChanges" required="required" class="flat" checked="checked">
+                                            <label class="custom-control-label" for="check2">Number of Changes</label>
+                                          </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                          <!-- Default checked -->
+                                          <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="metrics" value="numberOfCommittors" required="required" class="flat" checked="checked">
+                                            <label class="custom-control-label" for="check4">Number of Committors</label>
+                                          </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                          <!-- Default checked -->
+                                          <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="metrics" value="numberOfFix" required="required" class="flat" checked="checked">
+                                            <label class="custom-control-label" for="check4">Number of Fix</label>
+                                          </div>
+                                        </li>
+                                      </ul>
+<!--                                    <div class="checkbox">
                                         <label class="">
                                             <input type="checkbox" name="metrics" value="Process" required="required" class="flat" checked="checked"> Process
                                         </label>
-                                    </div>
+                                    </div>-->
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="checkbox">
+                                <div class="col-md-4">
+                                    <label>Scattering</label>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                          <!-- Default checked -->
+                                          <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="all" id="all" value="CK Metrics" class="flat" checked="checked">
+                                            <label class="custom-control-label" for="check1">All</label>
+                                          </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                          <!-- Default checked -->
+                                          <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="metrics" value="structuralScattering" required="required" class="flat" checked="checked">
+                                            <label class="custom-control-label" for="check1">Structural Scattering</label>
+                                          </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                          <!-- Default checked -->
+                                          <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="metrics" value="semanticScattering" required="required" class="flat" checked="checked">
+                                            <label class="custom-control-label" for="check2">Semantic Scattering</label>
+                                          </div>
+                                        </li>
+                                      </ul>
+<!--                                    <div class="checkbox">
                                         <label class="">
                                             <input type="checkbox" name="metrics" value="Scattering" required="required" class="flat" checked="checked"> Scattering
                                         </label>
-                                    </div>
+                                    </div>-->
                                 </div>
 <!--                                <div class="col-md-3">
                                     <div class="checkbox">
@@ -221,8 +380,10 @@
     }
     function createModal(){
         document.getElementById("githubConf").innerHTML = $('#github').val();
-        document.getElementById("issueTrackerConf").innerHTML = $('input[name="issueTracker"]').val();
-        document.getElementById("issueTrackerURLConf").innerHTML = $('#issueTrackerURL').val();
+        var issueTracker = $('input[name="issueTracker"]').val();
+        var nameIssueTracker = issueTracker.split("/");
+        document.getElementById("issueTrackerConf").innerHTML = nameIssueTracker[nameIssueTracker.length - 2];
+        document.getElementById("issueTrackerURLConf").innerHTML = $('input[name="issueTracker"]').val();
         var metrics = document.getElementById("metricsConf");
         metrics.innerHTML='';
         $('input[name="metrics"]').each(function () {
@@ -260,6 +421,9 @@
     try {
         hljs.initHighlightingOnLoad();
     } catch (err) {
+    }
+    function selectAll() {
+        console.log("OK");
     }
 </script>
 <!-- /Parsley -->

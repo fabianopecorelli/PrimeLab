@@ -317,7 +317,7 @@
     // Check, disable or indeterminate
     if (/^(ch|di|in)/.test(method) && !active) {
       on(input, state);
-
+      
     // Uncheck, enable or determinate
     } else if (/^(un|en|de)/.test(method) && active) {
       off(input, state);
@@ -354,6 +354,9 @@
 
   // Add checked, disabled or indeterminate state
   function on(input, state, keep) {
+      if($("input#all_CKMetrics").is(":checked")) {
+          console.log("ok");
+      }
     var node = input[0],
       parent = input.parent(),
       checked = state == _checked,

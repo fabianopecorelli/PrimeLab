@@ -17,6 +17,7 @@ import weka.classifiers.trees.RandomForest;
  *
  * @author fabiano
  */
+//Questa classe di occupa di istanziare un classificatore
 public class ClassifierBuilder {
     
     public static MyClassifier buildClassifier(String name){

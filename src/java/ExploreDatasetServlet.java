@@ -24,6 +24,10 @@ import javax.servlet.http.HttpSession;
  *
  * @author fabiano
  */
+/*
+Permette la visualizzazione di tutti i modelli precedentemente calcolati
+Legge dal file projects.txt 
+*/
 @WebServlet(urlPatterns = {"/ExploreDatasetServlet"})
 public class ExploreDatasetServlet extends HttpServlet {
 
@@ -46,13 +50,13 @@ public class ExploreDatasetServlet extends HttpServlet {
         for (Project p : allProj) {
             models.addAll(p.getModels());
         }
-        models.sort(new Comparator<Model>() {
-            @Override
-            public int compare(Model m1, Model m2) {
-                return m1.getDate().compareTo(m2.getDate());
-            }
-
-        });
+//        models.sort(new Comparator<Model>() {
+//            @Override
+//            public int compare(Model m1, Model m2) {
+//                return m1.getDate().compareTo(m2.getDate());
+//            }
+//
+//        });
         session.setAttribute("models", models);
         ServletContext sc = getServletContext();
         RequestDispatcher rd = sc.getRequestDispatcher("/exploreDatasets.jsp");

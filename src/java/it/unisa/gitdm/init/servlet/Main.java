@@ -25,34 +25,39 @@ import weka.classifiers.Classifier;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.functions.Logistic;
 import weka.classifiers.trees.J48;
+import weka.classifiers.trees.RandomForest;
 
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         String repoURL = "https://github.com/apache/ant.git";
         //String repoURL = "https://github.com/fabianopecorelli/provaPerTesi.git";
+        //String repoURL = "https://github.com/fabianopecorelli/PrimeLab.git";
         String projectName = "ant";
-        String where = "/home/sesa/Scrivania/gitdm/";
-        String scatteringFolder = "/home/sesa/Scrivania/gitdm/scattering/";
+        String where = "C:/ProgettoTirocinio/gitdm/";
+        String scatteringFolder = "C:/ProgettoTirocinio/gitdm/scattering/";
         String issueTracker = "bugzilla";
         String bugzillaUrl = "https://issues.apache.org/bugzilla/";
         //classifier
-        J48 j48 = new J48();
+        //J48 classifier = new J48();
+        RandomForest classifier = new RandomForest();
+        //Logistic classifier = new Logistic();
+        //Classifier classifier = (Classifier) new NaiveBayes();
         String classifierName = "j48";
-        String modelName = "myModel";
+        String modelName = "BBB";
 
-        Main.initAndCheckout(repoURL, where, projectName, "All", scatteringFolder, issueTracker, bugzillaUrl, "Ant", false, false, false, j48, classifierName, modelName);
+        Main.initAndCheckout(repoURL, where, projectName, "All", scatteringFolder, issueTracker, bugzillaUrl, "ant", true, true, true, classifier, classifierName, modelName);
     }
 
     public static void initAndCheckout(String repoURL, String baseFolder, String projectName, String periodLength,
             String scatteringFolderPath, String issueTracker, String issueTrackerPath, String productName, boolean initRepository, boolean initIssueTracker, boolean isSVN, Classifier classifier, String classifierName, String modelName) throws IOException, InterruptedException {
-//        Git.clone(repoURL, isSVN, projectName, baseFolder);
-        //      Checkout checkout = new Checkout(projectName, periodLength, baseFolder, scatteringFolderPath, initRepository);
-        //    CalculateDeveloperStructuralScattering calculateDeveloperStructuralScattering = new CalculateDeveloperStructuralScattering(projectName, periodLength, scatteringFolderPath);
-        //  CalculateDeveloperSemanticScattering calculateDeveloperSemanticScattering = new CalculateDeveloperSemanticScattering(projectName, periodLength, baseFolder, scatteringFolderPath);
-//        CalculateBuggyFiles calculateBuggyFiles = new CalculateBuggyFiles(scatteringFolderPath, projectName, issueTracker, issueTrackerPath, productName, initIssueTracker, false, isSVN);
-        // CalculatePredictors calculatePredictors = new CalculatePredictors(projectName, issueTracker, issueTrackerPath, productName, periodLength, baseFolder, scatteringFolderPath);
-        //       WekaEvaluator we = new WekaEvaluator(baseFolder, projectName, classifier, classifierName, modelName);
+        /*Git.clone(repoURL, isSVN, projectName, baseFolder);
+              Checkout checkout = new Checkout(projectName, periodLength, baseFolder, scatteringFolderPath, initRepository);
+           CalculateDeveloperStructuralScattering calculateDeveloperStructuralScattering = new CalculateDeveloperStructuralScattering(projectName, periodLength, scatteringFolderPath);
+          CalculateDeveloperSemanticScattering calculateDeveloperSemanticScattering = new CalculateDeveloperSemanticScattering(projectName, periodLength, baseFolder, scatteringFolderPath);
+        CalculateBuggyFiles calculateBuggyFiles = new CalculateBuggyFiles(scatteringFolderPath, projectName, issueTracker, issueTrackerPath, productName, initIssueTracker, false, isSVN);
+         CalculatePredictors calculatePredictors = new CalculatePredictors(projectName, issueTracker, issueTrackerPath, productName, periodLength, baseFolder, scatteringFolderPath);
+              */// WekaEvaluator we = new WekaEvaluator(baseFolder, projectName, classifier, classifierName, modelName);
         
             ArrayList<Model> models = new ArrayList<Model>();
             ArrayList<Metric> metrics = new ArrayList<Metric>();

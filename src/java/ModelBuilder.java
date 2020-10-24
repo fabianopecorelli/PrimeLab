@@ -24,8 +24,9 @@ import weka.classifiers.Classifier;
 public class ModelBuilder {
 
     public static Model buildModel(String projName, String projURL, ArrayList<Metric> metrics, MyClassifier classifier) {
+        System.out.println("*************"+ProjectHandler.getCurrentProject());
         ArrayList<Model> models = ProjectHandler.getCurrentProject().getModels();
-        System.out.println(models);
+        
         Model inputModel = new Model("Model", projName, projURL, metrics, classifier,"");
         if (models != null) {
             for (Model model: models){

@@ -46,6 +46,8 @@ public final class JiraRepository implements BugTrackingSystemRepository, Serial
                 this.bugs = Jira.extractBug(this.path, this.product, isSVN);
             } catch (MalformedURLException ex) {
                 Logger.getLogger(JiraRepository.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(JiraRepository.class.getName()).log(Level.SEVERE, null, ex);
             }
             return true;
         }

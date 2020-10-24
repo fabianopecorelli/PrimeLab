@@ -26,10 +26,15 @@ import weka.classifiers.bayes.NaiveBayes;
  *
  * @author fabiano
  */
+/*
+Si occupa della gestione del file project.txt dove sono salvati i risultati
+dei modelli calcolati in precedenza.
+Controllare la classe Confing.java per cambiare il path del file.
+*/
 public class ProjectHandler {
 
     private static ArrayList<Project> allProjects;
-    private static Project currentProject;
+    private static Project currentProject;//gitURL
 
     public static synchronized Project getCurrentProject() {
         return currentProject;

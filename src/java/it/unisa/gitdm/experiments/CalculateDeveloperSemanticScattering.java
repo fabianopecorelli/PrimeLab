@@ -19,6 +19,9 @@ import java.util.logging.Logger;
  *         <p/>
  *         GitDM - Git Data Mining
  */
+/*
+Calcolo metriche di Scattering
+*/
 public class CalculateDeveloperSemanticScattering {
 
     public CalculateDeveloperSemanticScattering(String projectName, String periodLength,

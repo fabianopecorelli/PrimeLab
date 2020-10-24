@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 public class Jira {
 
-    public static List<Bug> extractBug(String address, String projectName, boolean isSVN) throws MalformedURLException {
+    public static List<Bug> extractBug(String address, String projectName, boolean isSVN) throws MalformedURLException, InterruptedException {
 
         String issueType = "BUG";
         String status = "Resolved";
@@ -272,7 +272,7 @@ public class Jira {
         }
     }
 
-    private static void setInvolvedCommit(Bug issueToAdd, String address, String projectName, String patchURL, boolean isSVN) throws MalformedURLException {
+    private static void setInvolvedCommit(Bug issueToAdd, String address, String projectName, String patchURL, boolean isSVN) throws MalformedURLException, InterruptedException {
 
         Process process = new Process();
         process.initGitRepositoryFromFile("/home/sesa/Development/scattering/" + projectName.toLowerCase() + "/gitRepository.data");
@@ -303,7 +303,7 @@ public class Jira {
             } else {
                 for (Element e : list) {
                     System.out.println(projectName + "-" + issueToAdd.getID() + ": " + e.getText());
-                    Commit fix = repository.getCommitByID(e.getText(), isSVN);
+                    Commit fix = repository.getCommitByID(e.getText().toString(), isSVN);
                     if (fix != null) {
                         System.out.println("Fix: " + fix);
                         issueToAdd.setFix(fix);

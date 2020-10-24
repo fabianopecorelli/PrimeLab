@@ -18,6 +18,9 @@ import java.util.logging.Logger;
  *         <p/>
  *         GitDM - Git Data Mining
  */
+/*
+Calcolo metriche di Scattering
+*/
 public class CalculateDeveloperStructuralScattering {
 
     public CalculateDeveloperStructuralScattering(String projectName, String periodLength,

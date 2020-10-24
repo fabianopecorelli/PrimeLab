@@ -22,6 +22,7 @@ public class Checkout {
             process.initGitRepository(baseFolderPath + projectName);
             File scatteringProjectFolder = new File(scatteringFolderPath + projectName);
             scatteringProjectFolder.mkdirs();
+            //gitRepositori.data contiene  una lista di tutti i commit effettuati e il nominativo del proprietario della repository
             process.saveGitRepository(scatteringFolderPath + projectName + "/gitRepository.data");
         } else {
             process.initGitRepositoryFromFile(scatteringFolderPath + projectName
@@ -30,6 +31,7 @@ public class Checkout {
         File developerChangesPath = new File(scatteringFolderPath + projectName + "/"
                 + periodLength + "/");
         developerChangesPath.mkdirs();
+        //numero di sviluppatori
         File developersChanges = new File(scatteringFolderPath + projectName + "/"
                 + periodLength + "/developersChanges.data");
         System.out.println("Init done");

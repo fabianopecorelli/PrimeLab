@@ -33,6 +33,7 @@
         <link href="style/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
         <link href="style/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
         <link href="style/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+        <link href="style/newcustom.css" rel="stylesheet">
     </head>
 
     <body class="nav-sm">

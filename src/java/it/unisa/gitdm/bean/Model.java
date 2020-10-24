@@ -97,9 +97,11 @@ public class Model implements Serializable{
         }
         final Model other = (Model) obj;
         if (!Objects.equals(this.metrics, other.metrics)) {
+            System.err.print("different metrics " +this.metrics + " " + other.metrics);
             return false;
         }
         if (!Objects.equals(this.classifier.toString(), other.classifier.toString())) {
+            System.err.print("different metrics");
             return false;
         }
         return true;

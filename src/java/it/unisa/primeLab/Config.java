@@ -10,6 +10,7 @@ package it.unisa.primeLab;
  *
  * @author fabiano
  */
+///home/fabiano/Desktop/primeLab/
 public class Config {
-    public static final String baseDir = "/home/fabiano/Desktop/primeLab/";
+    public static final String baseDir = "C:/ProgettoTirocinio/projects/";
 }

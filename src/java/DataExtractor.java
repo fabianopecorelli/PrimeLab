@@ -62,18 +62,25 @@ public class DataExtractor {
     
     private static ArrayList<EvaluationPredictors> getAnalyzedClasses(String projFolderPath, String projName, Model model) {
         String fileName = projFolderPath + "/models/" + model.getName() + "/predictors.csv";
+        System.out.println(projFolderPath);
         File file = new File(fileName);
         ArrayList<EvaluationPredictors> toReturn = new ArrayList<EvaluationPredictors>();
+        
         try {
             // -read from filePooped with Scanner class
             Scanner inputStream = new Scanner(file);
             // hashNext() loops line-by-line
-            inputStream.next();
+            //inputStream.next();
             while (inputStream.hasNext()) {
                 //read single line, put in string
                 String data = inputStream.next();
                 String[] splitted = data.split(",");
-                toReturn.add(new EvaluationPredictors(splitted[0], Double.parseDouble(splitted[1]), Double.parseDouble(splitted[2]), Double.parseDouble(splitted[3]), Double.parseDouble(splitted[4]), Double.parseDouble(splitted[5]), Double.parseDouble(splitted[6]), Double.parseDouble(splitted[7]), Double.parseDouble(splitted[8]), Double.parseDouble(splitted[9]), Double.parseDouble(splitted[10]), Double.parseDouble(splitted[11]), splitted[12]));
+                ArrayList<String> list = new ArrayList<String>();
+                for(int i = 0; i < splitted.length; i++) {
+                    list.add(splitted[i]);
+                }
+                toReturn.add(new EvaluationPredictors(list));
+                //System.out.println(list);
             }
             // after loop, close scanner
             inputStream.close();

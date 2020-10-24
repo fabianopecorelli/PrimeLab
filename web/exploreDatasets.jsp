@@ -60,17 +60,17 @@
                             </tr>
                         </thead>
 
-
+                        <style>td#project:hover {cursor:pointer;}</style>
                         <tbody> 
                             <%
                                 for (Model m : models){
                                     String metrics = m.getMetrics().toString();
                                     metrics = metrics.substring(1,metrics.length() -1);
-                                    out.print("<tr><a><td>"+m.getProjName()+"</td>");
-                                    out.print("<td>"+m.getProjURL()+"</td>");
-                                    out.print("<td>"+metrics+"</td>");
-                                    out.print("<td>"+m.getClassifier()+"</td>");
-                                    out.print("<td>"+m.getDate()+"</td>");
+                                    out.print("<tr><td id='project'>"+m.getProjName()+"</a></td>");
+                                    out.print("<td id='gitURL'>"+m.getProjURL()+"</td>");
+                                    out.print("<td id='metrics'>"+metrics+"</td>");
+                                    out.print("<td id='classifier'>"+m.getClassifier()+"</td>");
+                                    out.print("<td id='date'>"+m.getDate()+"</td></tr>");
                                 }
                             %>
                         </tbody>
@@ -82,7 +82,26 @@
     <!-- /CONTENT -->
 </div>
 
-
+                        <form id="hidden_form" action="http://localhost:8080/PrimeLabServer/BuildModelServlet" method="POST" hidden>
+                            <input type="text" value="" name="github" id="github">
+                            <input type="checkbox" value="WMC" name="metrics" id="metrics">
+                            <input type="checkbox" value="DIT" name="metrics" id="metrics">
+                            <input type="checkbox" value="RFC" name="metrics" id="metrics">
+                            <input type="checkbox" value="NOC" name="metrics" id="metrics">
+                            <input type="checkbox" value="CBO" name="metrics" id="metrics">
+                            <input type="checkbox" value="LCOM" name="metrics" id="metrics">
+                            <input type="checkbox" value="NOA" name="metrics" id="metrics">
+                            <input type="checkbox" value="LOC" name="metrics" id="metrics">
+                            <input type="checkbox" value="NOM" name="metrics" id="metrics">
+                            <input type="checkbox" value="NOO" name="metrics" id="metrics">
+                            <input type="checkbox" value="numberOfChanges" name="metrics" id="metrics">
+                            <input type="checkbox" value="numberOfCommittors" name="metrics" id="metrics">
+                            <input type="checkbox" value="numberOfFix" name="metrics" id="metrics">
+                            <input type="checkbox" value="structuralScattering" name="metrics" id="metrics">
+                            <input type="checkbox" value="semanticScattering" name="metrics" id="metrics">
+                            <input type="text" value="" name="classifier" id="classifier">
+                            <input type="text" value="" name="issueTracker" id="issueTracker">
+                        </form>
 <!-- /page content -->
 
 <!-- footer content -->
@@ -177,5 +196,38 @@
         });
 
         TableManageButtons.init();
+        $('td#project').on('click', function() {
+            var tr = $(this).parent();
+            
+            //row data
+            var projectName = tr.find($('td#project')).text();
+            var gitUrl = tr.find($('td#gitURL')).text();
+            var metric = tr.find($('td#metrics')).text();
+            var classifier = tr.find($('td#classifier')).text();
+            var date = tr.find($('td#date')).text();
+           // console.log(metric);
+            var metrics = metric.split(", ");
+            //console.log(metrics[1]);
+            //send data
+            var f = $("form:hidden#hidden_form");
+            var i;
+            var j = 0;
+            var str;
+            for(i = 0; i < 15; i++) {
+                str = f.find("input#metrics").eq(i).val();
+                //console.log(str);
+                if(str === metrics[j]) {
+                    f.find("input#metrics").eq(i).attr('checked', true);
+                    //console.log(f.find("input#metrics").eq(i));
+                    j++;
+                }
+            }
+            
+            f.find("input#github").val(gitUrl);
+            f.find("input#classifier").val(classifier);
+            f.submit();
+            //console.log("ok");
+        });
+        
     });
 </script>

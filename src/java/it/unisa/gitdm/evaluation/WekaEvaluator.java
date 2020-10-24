@@ -5,8 +5,13 @@
  */
 package it.unisa.gitdm.evaluation;
 
+import it.unisa.primeLab.Config;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,14 +20,15 @@ import weka.classifiers.Evaluation;
 import weka.core.Attribute;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
-
+import org.bounce.net.DefaultAuthenticator;
+import weka.core.converters.CSVLoader;
 /**
  *
  * @author fabiano
  */
 public class WekaEvaluator {
 
-    public WekaEvaluator(String baseFolderPath, String projectName, Classifier classifier, String classifierName, String modelName) {
+    public WekaEvaluator(String baseFolderPath, String projectName, Classifier classifier, String classifierName, String modelName) throws IOException {
         // READ FILE
         /*CODICE VECCHIO
         try {
@@ -46,10 +52,16 @@ public class WekaEvaluator {
             Logger.getLogger(WekaEvaluator.class.getName()).log(Level.SEVERE, null, ex);
         } 
         CODICE VECCHIO*/
+        String dirPath = Config.baseDir + projectName + "/models/" + modelName;
+        Files.createDirectories(Paths.get(dirPath));
+        Files.copy(Paths.get(baseFolderPath + projectName + "/predictors.csv"),  Paths.get(Config.baseDir + projectName + "/models/" + modelName + "/predictors.csv"));
+        CSVLoader loader = new CSVLoader();
         String filePath = baseFolderPath + projectName + "/predictors.csv";
+        System.out.println(filePath);
+        loader.setSource(new File(filePath));
         try {
-            DataSource source = new DataSource(filePath);
-            Instances instances = source.getDataSet();
+            //DataSource source = new DataSource(filePath);
+            Instances instances = loader.getDataSet();
             instances.setClassIndex(instances.numAttributes() - 1);
             System.out.println("Numero istanze: " + instances.size());
             evaluateModel(baseFolderPath, projectName, classifier, instances, modelName, classifierName);
@@ -60,6 +72,7 @@ public class WekaEvaluator {
 
     private static void evaluateModel(String baseFolderPath, String projectName, Classifier pClassifier, Instances pInstances, String pModelName, String pClassifierName) throws Exception {
 
+        System.out.println(pModelName);
         // other options
         int folds = 10;
 
@@ -82,7 +95,8 @@ public class WekaEvaluator {
             // the above code is used by the StratifiedRemoveFolds filter, the
             // code below by the Explorer/Experimenter:
             // Instances train = randData.trainCV(folds, n, rand);
-
+          
+            //numero di colonne
             int classFeatureIndex = 0;
             for (int i = 0; i < train.numAttributes(); i++) {
                 if (train.attribute(i).name().equals("isBuggy")) {
@@ -91,16 +105,18 @@ public class WekaEvaluator {
                 }
             }
 
+            //Atribute classe per la gestione di un attributo. Una volta che un attributo è stato creato, non può essere modificato.
             Attribute classFeature = train.attribute(classFeatureIndex);
             for (int i = 0; i < classFeature.numValues(); i++) {
                 if (classFeature.value(i).equals("TRUE")) {
                     positiveValueIndexOfClassFeature = i;
                 }
             }
-
+            
+            //viene utilizzato per definire l'attributo che rappresenterà la classe (per scopi di previsione)
             train.setClassIndex(classFeatureIndex);
             test.setClassIndex(classFeatureIndex);
-
+            
             // build and evaluate classifier
             pClassifier.buildClassifier(train);
             eval.evaluateModel(pClassifier, test);
@@ -130,13 +146,16 @@ public class WekaEvaluator {
 
         double fmeasure = 2 * ((eval.precision(positiveValueIndexOfClassFeature) * eval.recall(positiveValueIndexOfClassFeature))
                 / (eval.precision(positiveValueIndexOfClassFeature) + eval.recall(positiveValueIndexOfClassFeature)));
-        File wekaOutput = new File(baseFolderPath + projectName + "/predictors.csv");
-        PrintWriter pw1 = new PrintWriter(wekaOutput);
-
-        pw1.write(accuracy + ";" + eval.precision(positiveValueIndexOfClassFeature) + ";"
-                + eval.recall(positiveValueIndexOfClassFeature) + ";" + fmeasure + ";" + eval.areaUnderROC(positiveValueIndexOfClassFeature));
+        File wekaOutput = new File(Config.baseDir + projectName + "/models/" + pModelName + "/wekaOutput.csv");
+        System.out.println(Config.baseDir + projectName + "/models/" + pModelName + "/wekaOutput.csv");
+        try (PrintWriter pw1 = new PrintWriter(wekaOutput)) {
+            pw1.write(accuracy + ";" + eval.precision(positiveValueIndexOfClassFeature) + ";"
+                    + eval.recall(positiveValueIndexOfClassFeature) + ";" + fmeasure + ";" + eval.areaUnderROC(positiveValueIndexOfClassFeature));
+            pw1.flush();
+            pw1.close();
+        }
         
-        
+         
         System.out.println(projectName + ";" + pClassifierName + ";" + pModelName + ";" + eval.numTruePositives(positiveValueIndexOfClassFeature) + ";"
                 + eval.numFalsePositives(positiveValueIndexOfClassFeature) + ";" + eval.numFalseNegatives(positiveValueIndexOfClassFeature) + ";"
                 + eval.numTrueNegatives(positiveValueIndexOfClassFeature) + ";" + accuracy + ";" + eval.precision(positiveValueIndexOfClassFeature) + ";"
