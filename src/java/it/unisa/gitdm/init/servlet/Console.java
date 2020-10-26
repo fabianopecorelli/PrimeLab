@@ -24,8 +24,8 @@ import java.util.ArrayList;
  */
 public class Console {
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        //deleteModel("antModel8");
-        updateModelName("antModel9", "antModel8");
+        deleteModel("antModel14");
+        //updateModelName("antModel9", "antModel8");
         
     }
     

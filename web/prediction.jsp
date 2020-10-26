@@ -165,7 +165,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="WMC" required="required" class="flat" <% if(metricOfModel.contains("WMC")) {
+                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="WMC" required="required" class="flat metrics" <% if(metricOfModel.contains("WMC")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check2">WMC</label>
@@ -174,7 +174,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="DIT" required="required" class="flat" <% if(metricOfModel.contains("DIT")) {
+                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="DIT" required="required" class="flat metrics" <% if(metricOfModel.contains("DIT")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check3">DIT</label>
@@ -183,7 +183,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="RFC" required="required" class="flat" <% if(metricOfModel.contains("RFC")) {
+                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="RFC" required="required" class="flat metrics" <% if(metricOfModel.contains("RFC")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check4">RFC</label>
@@ -192,7 +192,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="NOC" required="required" class="flat" <% if(metricOfModel.contains("NOC")) {
+                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="NOC" required="required" class="flat metrics" <% if(metricOfModel.contains("NOC")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check5">NOC</label>
@@ -201,7 +201,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="CBO" required="required" class="flat" <% if(metricOfModel.contains("CBO")) {
+                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="CBO" required="required" class="flat metrics" <% if(metricOfModel.contains("CBO")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check5">CBO</label>
@@ -210,7 +210,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="LCOM" required="required" class="flat" <% if(metricOfModel.contains("LCOM")) {
+                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="LCOM" required="required" class="flat metrics" <% if(metricOfModel.contains("LCOM")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check5">LCOM</label>
@@ -219,7 +219,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="NOA" required="required" class="flat" <% if(metricOfModel.contains("NOA")) {
+                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="NOA" required="required" class="flat metrics" <% if(metricOfModel.contains("NOA")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check5">NOA</label>
@@ -228,7 +228,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="LOC" required="required" class="flat" <% if(metricOfModel.contains("LOC")) {
+                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="LOC" required="required" class="flat metrics" <% if(metricOfModel.contains("LOC")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check5">LOC</label>
@@ -237,7 +237,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="NOM" required="required" class="flat" <% if(metricOfModel.contains("NOM")) {
+                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="NOM" required="required" class="flat metrics" <% if(metricOfModel.contains("NOM")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check5">NOM</label>
@@ -246,7 +246,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="NOO" required="required" class="flat" <% if(metricOfModel.contains("NOO")) {
+                                                                    <input type="checkbox" name="metrics" id="CKMetrics" value="NOO" required="required" class="flat metrics" <% if(metricOfModel.contains("NOO")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check5">NOO</label>
@@ -267,7 +267,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" id="Process" value="numberOfChanges" required="required" class="flat" <% if(metricOfModel.contains("numberOfChanges")) {
+                                                                    <input type="checkbox" name="metrics" id="Process" value="numberOfChanges" required="required" class="flat metrics" <% if(metricOfModel.contains("numberOfChanges")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check2">Number of Changes</label>
@@ -276,7 +276,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" id="Process" value="numberOfCommittors" required="required" class="flat" <% if(metricOfModel.contains("numberOfCommittors")) {
+                                                                    <input type="checkbox" name="metrics" id="Process" value="numberOfCommittors" required="required" class="flat metrics" <% if(metricOfModel.contains("numberOfCommittors")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check4">Number of Committors</label>
@@ -285,7 +285,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" id="Process" value="numberOfFix" required="required" class="flat" <% if(metricOfModel.contains("numberOfFix")) {
+                                                                    <input type="checkbox" name="metrics" id="Process" value="numberOfFix" required="required" class="flat metrics" <% if(metricOfModel.contains("numberOfFix")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check4">Number of Fix</label>
@@ -306,7 +306,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" id="Scattering" value="structuralScattering" required="required" class="flat" <% if(metricOfModel.contains("structuralScattering")) {
+                                                                    <input type="checkbox" name="metrics" id="Scattering" value="structuralScattering" required="required" class="flat metrics" <% if(metricOfModel.contains("structuralScattering")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check1">Structural Scattering</label>
@@ -315,7 +315,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="metrics" id="Scattering" value="semanticScattering" required="required" class="flat" <% if(metricOfModel.contains("semanticScattering")) {
+                                                                    <input type="checkbox" name="metrics" id="Scattering" value="semanticScattering" required="required" class="flat metrics" <% if(metricOfModel.contains("semanticScattering")) {
                                                                         out.print(" checked='checked'");
                                                                     }%>>
                                                                     <label class="custom-control-label" for="check2">Semantic Scattering</label>
@@ -399,7 +399,7 @@
 
                                                                     <div class="modal-footer">
                                                                         <button type="button" class="btn btn-default" onclick="onModalClose()" data-dismiss="modal">Close</button>
-                                                                        <button id="btn_confirm" type="submit" class="btn btn-success"  data-dismiss="modal">Confirm</button>
+                                                                        <button id="btn_confirm" type="button" class="btn btn-success"  data-dismiss="modal">Confirm</button>
                                                                     </div>
                                                                 </div>
 
@@ -660,13 +660,44 @@
         TableManageButtons.init();
         //modal
         $('#newPred').on('click', function () {
-            /*if ($("input#CKMetrics").is("checked")) {
-                console.log("ok");
-            }*/
             mySubmit();
         });
         //message
         $("#btn_confirm").on("click", function(){
+            
+            var github = $("#githubConf").text();
+            var issueTracker = $("#issueTrackerConf").text();
+            var issueTrackerURL = $("#issueTrackerURLConf").text();
+            var metric_1 = $("#metricsConf").text();
+            var metrics = metric_1.split("; ");
+            metrics.splice(-1,1);
+            var classifier = $("#heard").val();
+            $.ajax({
+                   type: 'Post',
+                   url: "http://localhost:8080/PrimeLabServer/BuildModelServlet", data:{
+                github : github,
+                issueTracker : issueTrackerURL,
+                metrics : metrics,
+                classifier : classifier
+            }, success: function(data) {
+                var mex = "";
+                if(succes === 200) {
+                    mex="We\'ll send you an a e-mail when the<br> evalutation will be completed";
+                } else {
+                    mex="error";
+                }
+                console.log(success);
+                $("#success-alert").css("position","fixed");
+                $("#success-alert").css("top","30px");
+                $("#success-alert").css("right","30px");
+                $("#success-alert").css("whidt","100px");
+                $("#success-alert").css("display","block");
+                $("#success-alert").html($("<strong>"+mex+"</strong>"));
+                setTimeout(function() {
+                        $("#success-alert").css("display","none");
+                //$("#success-alert").alert('close');
+            }, 2000);
+            }, traditional: true});
             if ($("input#email").val() !== "") {
                 var mex="We\'ll send you an a e-mail when the<br> evalutation will be completed";
                 $("#success-alert").css("position","fixed");
@@ -682,19 +713,19 @@
             }
         });
         
-        $("div.custom-checkbox").on("change", function() {
-            console.log("ok");
-            //checked
-        });
     });
 </script>
 <!-- Parsley -->
 <script>
-                                var metrics = document.getElementsByName("metric");
-                                for (var i = 0; i < metrics.length; i++)
-                                    metrics[i].addEventListener("click", function () {
-                                        document.getElementById("newPred").style.visibility = "visible";
-                                    }, true);
+                                var metrics = document.getElementsByName("metrics");
+//                                for (var i = 0; i < metrics.length; i++) {
+//                                    //console.log(metrics[i]);
+//                                    metrics[i].addEventListener("click", function () {
+//                                        document.getElementById("newPred").style.visibility = "visible";
+//                                        console.log("ok");
+//                                    }, true);
+//                                }
+                                    
                                 $(document).ready(function () {
                                     $.listen('parsley:field:validate', function () {
                                         validateFront();

@@ -271,9 +271,14 @@
             // Click
             if (type == _click) {
               operate(self, false, true, 0);
-              console.log("click");
-              console.log(self);
-
+              //console.log("click");
+              //console.log(self);
+              if( $('#newPred').length ) {
+                  //console.log($('#newPred'));
+                  $("#newPred").css('visibility', 'visible');
+              }
+              
+              //check or uncheck all checkboxes for CK Metrics
               if(self.attr("id") === "all_CKMetrics") {
                   if(flag1) {
                     offCKMetrics(self);
@@ -283,18 +288,19 @@
                     flag1 = true;
                 }
             }
+            //check or uncheck all checkboxes for Process
             if(self.attr("id") === "all_Process") {
             if(flag2) {
                   offProcess(self);
                   flag2 = false;
-                  console.log(flag2);
+                  //console.log(flag2);
               } else {
                   onProcess(self);
                   flag2 = true;
-                  console.log(flag2);
+                  //console.log(flag2);
               }
             }  
-
+            //check or uncheck all checkboxes for Scattering
               if(self.attr("id") === "all_Scattering") {
                   if(flag3) {
                     offScattering(self);
@@ -303,6 +309,26 @@
                     onScattering(self);
                     flag3 = true;
                 }
+              }
+              if(self.attr("id") === "CKMetrics") {
+                  if(flag1) {
+                      off($("input#all_CKMetrics"), _checked);
+                      flag1 = false;
+                  }
+              }
+              
+              if(self.attr("id") === "Process") {
+                  if(flag2) {
+                      off($("input#all_Process"), _checked);
+                      flag2 = false;
+                  }
+              }
+              
+              if(self.attr("id") === "Scattering") {
+                  if(flag3) {
+                      off($("input#all_Scattering"), _checked);
+                      flag3 = false;
+                  }
               }
               
             // Active and hover states
@@ -397,8 +423,8 @@
       // Toggle checked state
       if (active) {
         if (node[_type] !== _radio) {
-            console.log("off input state " + state);
-            console.log(node);
+            //console.log("off input state " + state);
+            //console.log(node);
           off(input, state);
         }
       } else {

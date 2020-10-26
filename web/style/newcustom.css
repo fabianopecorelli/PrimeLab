@@ -11,3 +11,6 @@ and open the template in the editor.
 li.list-group-item {
     border : none;
 }
+#datatable {
+    overflow-x:scroll;
+}

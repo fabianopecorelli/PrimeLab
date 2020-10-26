@@ -102,6 +102,7 @@ public class BuildModelServlet extends HttpServlet {
         String[] checkedMetrics = request.getParameterValues("metrics");
         ArrayList<Metric> metrics = new ArrayList<Metric>();
         System.out.println(issueTracker);
+        System.out.println(checkedMetrics[0]);
         for (String s : checkedMetrics) {
             System.out.println(s);
             metrics.add(new Metric(s));
