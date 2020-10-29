@@ -11,15 +11,25 @@ import it.unisa.gitdm.bean.Model;
 import it.unisa.gitdm.bean.MyClassifier;
 import it.unisa.gitdm.bean.Project;
 import it.unisa.gitdm.evaluation.WekaEvaluator;
+import it.unisa.gitdm.experiments.CalculateBuggyFiles;
+import it.unisa.gitdm.experiments.CalculateDeveloperSemanticScattering;
+import it.unisa.gitdm.experiments.CalculateDeveloperStructuralScattering;
+import it.unisa.gitdm.experiments.Checkout;
 import it.unisa.gitdm.init.servlet.CalculatePredictors;
+import it.unisa.gitdm.source.Git;
 import it.unisa.primeLab.ProjectHandler;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -97,7 +107,11 @@ public class BuildModelServlet extends HttpServlet {
         // GET REQUEST PARAMETER
         String github = request.getParameter("github");
         Project curr = new Project(github);
-        ProjectHandler.setCurrentProject(curr);
+        try {
+            ProjectHandler.setCurrentProject(curr);
+        } catch(NullPointerException e) {
+        }
+        
         String issueTracker = request.getParameterValues("issueTracker")[0];
         String[] checkedMetrics = request.getParameterValues("metrics");
         ArrayList<Metric> metrics = new ArrayList<Metric>();
@@ -105,7 +119,7 @@ public class BuildModelServlet extends HttpServlet {
         System.out.println(checkedMetrics[0]);
         for (String s : checkedMetrics) {
             System.out.println(s);
-            metrics.add(new Metric(s));
+            metrics.add(MetricBuilder.MyMetric(s));
         }
         
         System.out.println(metrics);
@@ -116,28 +130,60 @@ public class BuildModelServlet extends HttpServlet {
         String projName = splitted[splitted.length - 1];
         curr.setName(projName);
         String projFolderPath = "" + Config.baseDir + projName;
-        String clonePath = "" + Config.baseDir + projName + "/" + projName;
 
-        System.out.println("*******"+ProjectHandler.getCurrentProject().getModels().toString());
-        System.out.println("*****"+curr.getName());
-        Model model = ModelBuilder.buildModel(curr.getName(), curr.getGitURL(), metrics, classifier);
+//        System.out.println("*******"+ProjectHandler.getCurrentProject().getModels().toString());
+//        System.out.println("*****"+curr.getName());
+        Model model = null;
+        if(ProjectHandler.getCurrentProject() != null) {
+            model = ModelBuilder.buildModel(curr.getName(), curr.getGitURL(), metrics, classifier);
+        }
         if (model == null) { // calculate evaluation
-            Project p = ProjectHandler.getCurrentProject();
+            ArrayList<Model> models = new ArrayList<Model>();
+            Project p = new Project(projName, github, models);
             
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
             Date date = new Date();
             String now = dateFormat.format(date);
             
             Model inputModel = new Model(p.getName() + "Model" + (p.getModels().size() + 1), p.getName(), p.getGitURL(), metrics, classifier,now);
+            models.add(inputModel);
+            
             String scatteringFolderPath = "C:/ProgettoTirocinio/gitdm/scattering/";
             String baseFolderPath = "C:/ProgettoTirocinio/gitdm/";
+            
+            String periodLength = "All";
+            
+//            //check if exist repository
+//            if(Files.notExists(Paths.get(baseFolderPath + p.getName()), LinkOption.NOFOLLOW_LINKS)) {
+//                try {
+//                    Git.clone(p.getGitURL(), false, p.getName(), baseFolderPath);
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(BuildModelServlet.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//            if(Files.notExists(Paths.get(scatteringFolderPath + "/" + p.getName() + "buggyFiles.data"), LinkOption.NOFOLLOW_LINKS) || Files.notExists(Paths.get(scatteringFolderPath + p.getName() + "/"
+//                + periodLength + "/developersChanges.data"), LinkOption.NOFOLLOW_LINKS)) {
+//                Checkout checkout = new Checkout(p.getName(), periodLength, baseFolderPath, scatteringFolderPath, true);
+//            }
+//            
+//            if(Files.notExists(Paths.get(scatteringFolderPath + p.getName() + "/" + periodLength + "/structuralScattering.csv"), LinkOption.NOFOLLOW_LINKS) || Files.notExists(Paths.get(scatteringFolderPath + p.getName()
+//                + "/" + periodLength + "/developersChanges.data"), LinkOption.NOFOLLOW_LINKS)) {
+//                CalculateDeveloperStructuralScattering calculateDeveloperStructuralScattering = new CalculateDeveloperStructuralScattering(p.getName(), periodLength, scatteringFolderPath);
+//            }
+//            
+//            if(Files.notExists(Paths.get(scatteringFolderPath + p.getName() + "/" + periodLength + "/semanticScattering.csv"), LinkOption.NOFOLLOW_LINKS)) {
+//                CalculateDeveloperSemanticScattering calculateDeveloperSemanticScattering = new CalculateDeveloperSemanticScattering(p.getName(), periodLength, baseFolderPath, scatteringFolderPath);
+//            }
+//            
+//            if(Files.notExists(Paths.get(scatteringFolderPath + File.separator + p.getName() + File.separator + "buggyFiles.data"), LinkOption.NOFOLLOW_LINKS)) {
+//                CalculateBuggyFiles calculateBuggyFiles = new CalculateBuggyFiles(scatteringFolderPath, p.getName(), issueTracker, issueTracker, p.getName(), true, false, false);
+//            }
+            
             CalculatePredictors.CalculateSpecificPredictors(projName, issueTracker, issueTracker, projName, "All", baseFolderPath, scatteringFolderPath, inputModel);
             
             String baseFolder = "C:/ProgettoTirocinio/gitdm/";
             WekaEvaluator we = new WekaEvaluator(baseFolder, projName, classifier.getClassifier(), classifier.getName(), inputModel.getName());
             
-            ArrayList<Model> models = p.getModels();
-            models.add(inputModel);
             p.setModels(models);
             //non salva il progetto
             ProjectHandler.addProject(p);

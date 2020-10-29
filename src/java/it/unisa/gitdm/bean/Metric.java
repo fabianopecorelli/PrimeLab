@@ -5,14 +5,17 @@
  */
 package it.unisa.gitdm.bean;
 
+import it.unisa.gitdm.metrics.parser.bean.ClassBean;
+import it.unisa.gitdm.scattering.ScatteringMetricsParser;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
  *
  * @author fabiano
  */
-public class Metric implements Serializable {
+public abstract class Metric implements Serializable {
     
     private String nome;
 
@@ -27,7 +30,7 @@ public class Metric implements Serializable {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 3;
@@ -57,9 +60,6 @@ public class Metric implements Serializable {
         return nome;
     }
     
-    
-    
-    
-    
+    public abstract double getValue(ClassBean cb, ArrayList<ClassBean> System, ScatteringMetricsParser structuralMP, ScatteringMetricsParser semanticalMP, FileBean file, Period p);
     
 }

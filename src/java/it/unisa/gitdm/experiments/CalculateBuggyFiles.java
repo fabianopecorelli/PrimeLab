@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 /**
  * @author Dario
  */
-final class CalculateBuggyFiles {
+public final class CalculateBuggyFiles {
 
     private final List<FileBean> buggyFiles;
 

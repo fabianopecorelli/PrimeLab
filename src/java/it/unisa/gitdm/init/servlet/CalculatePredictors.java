@@ -261,19 +261,38 @@ public class CalculatePredictors {
                         if (file.getPath().contains(".java")) {
                         File workTreeFile = new File(projectPath + "/" + file.getPath());
 
-                        ClassBean classBean;
+                        ClassBean classBean = null;
 
                             if (workTreeFile.exists()) {
                                 ArrayList<ClassBean> code = new ArrayList<>();
                                 ArrayList<ClassBean> classes = ReadSourceCode.readSourceCode(workTreeFile, code);
                                 
-                                String body = "";
+                                String body = file.getPath() + ",";
                                 if (classes.size() > 0) {
                                     classBean = classes.get(0);
-                                    body += CalculatePredictors.writeBody(metrics, classBean, classes, structuralMP, semanticalMP, file, p, periodBuggyFiles);
-                                    //System.out.println(body);
-                                    pw1.write(body);
+
                                 }
+                                for(Metric m : metrics) {
+                                    try{
+                                        body += m.getValue(classBean, classes, structuralMP, semanticalMP, file, p) + ",";
+                                    } catch(NullPointerException e) {
+                                        body += "0.0,";
+                                    }
+                                }
+                                
+                                //buggy
+                                boolean isBuggy = false;
+
+                                for (FileBean fileBean : periodBuggyFiles) {
+                                    if (fileBean.getPath().equals(
+                                            file.getPath())) {
+                                        isBuggy = true;
+                                        break;
+                                    }
+                                }
+                                body = body + isBuggy + "\n";
+                                
+                                pw1.write(body);
                                 
                             }
                         }
@@ -304,100 +323,6 @@ public class CalculatePredictors {
         return heading;
     }
     
-    private static String writeBody(ArrayList<Metric> metrics, ClassBean classBean, ArrayList<ClassBean> classes, ScatteringMetricsParser structuralMP, ScatteringMetricsParser semanticalMP, FileBean file, Period p, List<FileBean> periodBuggyFiles) {
-        String body = "" + file.getPath() + ",";
-        
-        double structuralFileScattering = 0;
-
-        double semanticFileScattering = 0;
-
-        int numberOfChanges = 0;
-        double numberOfFIChanges = 0;
-        
-        List<Developer> developersOnFile = DeveloperTreeManager.getDevelopersOnFile(file, p.getId());
-
-        for (Developer developer : developersOnFile) {
-            double structuralScattering = structuralMP.getMetrics(developer.getEmail(), p.getId(),
-                    ScatteringType.AVERAGE).getValue();
-            double semanticScattering = semanticalMP.getMetrics(developer.getEmail(), p.getId(),
-                    ScatteringType.AVERAGE).getValue();
-
-            numberOfChanges += DeveloperTreeManager
-                    .getNumberOfChanges(developer,
-                            p.getId(), file);
-
-            numberOfFIChanges += DeveloperFITreeManager
-                    .getNumberOfChanges(developer,
-                            p.getId(), file);
-
-            structuralFileScattering += structuralScattering;
-            semanticFileScattering += semanticScattering;
-        }
-        
-        for(Metric m : metrics) {
-            switch(m.getNome()) {
-                case "CBO":
-                    body = body + CKMetrics.getCBO(classBean);
-                    break;
-                case "DIT":
-                    body = body + CKMetrics.getDIT(classBean, classes, 0);
-                    break;    
-                case "WMC":
-                    body = body + CKMetrics.getWMC(classBean);
-                    break;
-                case "RFC":
-                    body = body + CKMetrics.getRFC(classBean);
-                    break;
-                case "NOC":
-                    body = body + CKMetrics.getNOC(classBean, classes);
-                    break;
-                case "LCOM":
-                    body = body + CKMetrics.getLCOM(classBean);
-                    break;
-                case "NOA":
-                    body = body + CKMetrics.getNOA(classBean, classes);
-                    break;  
-                case "LOC":
-                    body = body + CKMetrics.getLOC(classBean);
-                    break;
-                case "NOM":
-                    body = body + CKMetrics.getNOM(classBean);
-                    break;
-                case "NOO":
-                    body = body + CKMetrics.getNOO(classBean, classes);
-                    break;
-                case "numberOfChanges":
-                    body = body + numberOfChanges;
-                    break;
-                case "numberOfCommittors":
-                    body = body + numberOfFIChanges;
-                    break;
-                case "numberOfFix":
-                    body = body + developersOnFile.size();
-                    break;
-                case "structuralScattering":
-                    body = body + structuralFileScattering;
-                    break;
-                case "semanticScattering":
-                    body = body + semanticFileScattering;
-                    break;
-            }
-            body = body + ",";
-        }
-        //buggy
-        boolean isBuggy = false;
-
-        for (FileBean fileBean : periodBuggyFiles) {
-            if (fileBean.getPath().equals(
-                    file.getPath())) {
-                isBuggy = true;
-                break;
-            }
-        }
-        body = body + isBuggy + "\n";
-        
-        return body;
-    }
 
     private int getTotalNumberOfChanges(Period p) {
         int totalNumberOfChanges = 0;

@@ -14,6 +14,10 @@ import it.unisa.gitdm.bean.Model;
 import it.unisa.gitdm.bean.MyClassifier;
 import it.unisa.gitdm.bean.Period;
 import it.unisa.gitdm.bean.Project;
+import it.unisa.gitdm.bean.metrics.CKMetrics.CBO;
+import it.unisa.gitdm.bean.metrics.CKMetrics.RFC;
+import it.unisa.gitdm.bean.metrics.CKMetrics.WMC;
+import it.unisa.gitdm.bean.metrics.process.NumberOfFix;
 import it.unisa.gitdm.evaluation.WekaEvaluator;
 import it.unisa.gitdm.metrics.CKMetrics;
 import it.unisa.gitdm.metrics.ReadSourceCode;
@@ -57,8 +61,16 @@ public class TestFile {
         String periodLength = "All";
         String baseFolderPath = "C:/ProgettoTirocinio/gitdm/";
         String scatteringFolderPath = "C:/ProgettoTirocinio/gitdm/scattering/";
+        
+        ArrayList<Metric> metrics = new ArrayList<Metric>();
+        metrics.add(new WMC());
+        metrics.add(new RFC());
+        metrics.add(new CBO());
+        metrics.add(new NumberOfFix());
+        
+        
         Process process = new Process() {};
-        /*
+        
         process.initGitRepositoryFromFile(scatteringFolderPath + "/" + projectName
                 + "/gitRepository.data");
         
@@ -88,9 +100,13 @@ public class TestFile {
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(TestFile.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
+            String message = "";
+            for(Metric m : metrics) {
+                message += m.getNome() + ",";
+            }
                 pw1.write("name,"
-                        + "LOC,CBO,NOC,NOA," + "isBuggy\n");
+                        + message + "isBuggy\n");
 
                 CalculateBuggyFiles cbf = new CalculateBuggyFiles(scatteringFolderPath, projectName, issueTracker, issueTrackerPath, productName, false, false, false);
 
@@ -116,15 +132,11 @@ public class TestFile {
                 List<FileBean> repoFiles = Git.gitList(new File(projectPath));
                 System.out.println("Repo size: "+repoFiles.size());
                 for (FileBean file : repoFiles) {
-                    double LOC = 0;
-                    double CBO = 0;
-                    double NOC = 0;
-                    double NOA = 0;
 
                     if (file.getPath().contains(".java")) {
                         File workTreeFile = new File(projectPath + "/" + file.getPath());
 
-                        ClassBean classBean;
+                        ClassBean classBean = null;
 
                         if (workTreeFile.exists()) {
                             ArrayList<ClassBean> code = new ArrayList<>();
@@ -134,17 +146,20 @@ public class TestFile {
                             } catch (IOException ex) {
                                 Logger.getLogger(TestFile.class.getName()).log(Level.SEVERE, null, ex);
                             }
-
+                            
+                            String message1 = file.getPath() + ",";
                             if (classes.size() > 0) {
                                 classBean = classes.get(0);
-
-                                LOC = CKMetrics.getLOC(classBean);
-                                CBO = CKMetrics.getCBO(classBean);
-                                NOC = CKMetrics.getNOC(classBean, classes);
-                                NOA = CKMetrics.getNOA(classBean, classes);
+                                
+                            }
+                            for(Metric m : metrics) {
+                                try{
+                                    message1 += m.getValue(classBean, classes, null, null, file, p) + ",";
+                                } catch(NullPointerException e) {
+                                    message1 += "0.0,";
+                                }
                             }
                             
-                            String message1 = "";
                             
                             boolean isBuggy = false;
 
@@ -156,8 +171,7 @@ public class TestFile {
                                 }
                             }
 
-                            message1 += file.getPath() + ","
-                                    + LOC + "," + CBO + "," + NOC + "," + NOA + "," + isBuggy + "\n";
+                            message1 += isBuggy + "\n";
 
                             pw1.write(message1);
                         }
@@ -170,23 +184,20 @@ public class TestFile {
             }
             //end for calculate 
             
-            String modelName = "antModel2";
+            String modelName = "antModel1";
             //predizione
             WekaEvaluator we = new WekaEvaluator(baseFolderPath, projectName, new NaiveBayes(), "Naive Baesian", modelName);
-            */
+            WekaEvaluator we1 = new WekaEvaluator(baseFolderPath, projectName, new Logistic(), "Logistic Regression", "antModel2");
+            
             //file projects.txt
             ArrayList<Model> models = new ArrayList<Model>();
-            ArrayList<Metric> metrics = new ArrayList<Metric>();
-            metrics.add(new Metric("NOC"));
-            metrics.add(new Metric("CBO"));
-            metrics.add(new Metric("LOC"));
             
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
             Date date = new Date();
             String now = dateFormat.format(date);
             MyClassifier c1 = new MyClassifier("Logistic Regression");
             c1.setClassifier(new Logistic());
-            models.add(new Model("antModel2", "ant", "https://github.com/apache/ant.git", metrics, c1, now));
+            models.add(new Model("antModel1", "ant", "https://github.com/apache/ant.git", metrics, c1, now));
             MyClassifier c2 = new MyClassifier("Naive Baesian");
             c2.setClassifier(new NaiveBayes());
             models.add(new Model("antModel2", "ant", "https://github.com/apache/ant.git", metrics, c2, now));

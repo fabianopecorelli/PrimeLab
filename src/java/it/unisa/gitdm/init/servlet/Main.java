@@ -30,10 +30,10 @@ import weka.classifiers.trees.RandomForest;
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        String repoURL = "https://github.com/apache/ant.git";
+        //String repoURL = "https://github.com/apache/ant.git";
         //String repoURL = "https://github.com/fabianopecorelli/provaPerTesi.git";
-        //String repoURL = "https://github.com/fabianopecorelli/PrimeLab.git";
-        String projectName = "ant";
+        String repoURL = "https://github.com/gerryS2xda/SmartLab.git";
+        String projectName = "SmartLab";
         String where = "C:/ProgettoTirocinio/gitdm/";
         String scatteringFolder = "C:/ProgettoTirocinio/gitdm/scattering/";
         String issueTracker = "bugzilla";
@@ -46,24 +46,24 @@ public class Main {
         String classifierName = "j48";
         String modelName = "BBB";
 
-        Main.initAndCheckout(repoURL, where, projectName, "All", scatteringFolder, issueTracker, bugzillaUrl, "ant", true, true, true, classifier, classifierName, modelName);
+        Main.initAndCheckout(repoURL, where, projectName, "All", scatteringFolder, issueTracker, bugzillaUrl, "SmartLab", true, true, false, classifier, classifierName, modelName);
     }
 
     public static void initAndCheckout(String repoURL, String baseFolder, String projectName, String periodLength,
             String scatteringFolderPath, String issueTracker, String issueTrackerPath, String productName, boolean initRepository, boolean initIssueTracker, boolean isSVN, Classifier classifier, String classifierName, String modelName) throws IOException, InterruptedException {
-        /*Git.clone(repoURL, isSVN, projectName, baseFolder);
+        Git.clone(repoURL, isSVN, projectName, baseFolder);
               Checkout checkout = new Checkout(projectName, periodLength, baseFolder, scatteringFolderPath, initRepository);
            CalculateDeveloperStructuralScattering calculateDeveloperStructuralScattering = new CalculateDeveloperStructuralScattering(projectName, periodLength, scatteringFolderPath);
           CalculateDeveloperSemanticScattering calculateDeveloperSemanticScattering = new CalculateDeveloperSemanticScattering(projectName, periodLength, baseFolder, scatteringFolderPath);
         CalculateBuggyFiles calculateBuggyFiles = new CalculateBuggyFiles(scatteringFolderPath, projectName, issueTracker, issueTrackerPath, productName, initIssueTracker, false, isSVN);
-         CalculatePredictors calculatePredictors = new CalculatePredictors(projectName, issueTracker, issueTrackerPath, productName, periodLength, baseFolder, scatteringFolderPath);
-              */// WekaEvaluator we = new WekaEvaluator(baseFolder, projectName, classifier, classifierName, modelName);
-        
+         //CalculatePredictors calculatePredictors = new CalculatePredictors(projectName, issueTracker, issueTrackerPath, productName, periodLength, baseFolder, scatteringFolderPath);
+              // WekaEvaluator we = new WekaEvaluator(baseFolder, projectName, classifier, classifierName, modelName);
+        /*
             ArrayList<Model> models = new ArrayList<Model>();
             ArrayList<Metric> metrics = new ArrayList<Metric>();
-            metrics.add(new Metric("CK Metrics"));
-            metrics.add(new Metric("Process"));
-            metrics.add(new Metric("Scattering"));
+//            metrics.add(new Metric("CK Metrics"));
+//            metrics.add(new Metric("Process"));
+//            metrics.add(new Metric("Scattering"));
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
             Date date = new Date();
             String now = dateFormat.format(date);
@@ -96,7 +96,7 @@ public class Main {
             ProjectHandler.setCurrentProject(p1);
             Project curr = ProjectHandler.getCurrentProject();
             System.out.println(curr.getGitURL()+" --- "+curr.getModels());
-            //ProjectHandler.addProject(p1);
+            //ProjectHandler.addProject(p1);*/
             
                     
     }
