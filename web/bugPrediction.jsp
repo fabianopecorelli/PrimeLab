@@ -8,6 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="it.unisa.gitdm.bean.Metric"%>
 <%@page import="it.unisa.gitdm.bean.Model"%>
+<%session.setAttribute("typePrediction", "BugPrediction"); %>
 <% Model model = (Model) session.getAttribute("modello");%>
 <%
     String metricOfModel = "";

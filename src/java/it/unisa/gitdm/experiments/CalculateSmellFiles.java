@@ -93,6 +93,8 @@ public class CalculateSmellFiles {
                 while ((line = br.readLine()) != null) {
                     String[] classe = line.split(cvsSplitBy);
                     classe[1] = classe[1].replace(".", "/");
+                    classe[1] = classe[1].replace(";", "");
+                    classe[1] = classe[1].replace(" ", "");
                     FileBean f = new FileBean(classe[1] + "/" + classe[0]);
                     
                     if(!smellFiles.contains(f)) {
@@ -183,7 +185,7 @@ public class CalculateSmellFiles {
             e.printStackTrace();
         }
         
-        return "";
+        return baseSmellPatch + "Validated";
     }
     
 }

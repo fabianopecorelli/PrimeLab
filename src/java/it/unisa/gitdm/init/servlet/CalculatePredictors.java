@@ -137,8 +137,7 @@ public class CalculatePredictors {
                                 boolean isBuggy = false;
 
                                 for (FileBean fileBean : periodFiles) {
-                                    if (fileBean.getPath().equals(
-                                            file.getPath())) {
+                                    if (file.getPath().contains(fileBean.getPath())) {
                                         isBuggy = true;
                                         break;
                                     }

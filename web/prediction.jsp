@@ -50,6 +50,13 @@
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
+            <h3>
+                <% if(model.getType().equals("BugPrediction")) {
+                    out.print("Bug Prediction");
+                } else {
+                    out.print("Code Smell Detection <span>(" + model.getSmell() + ")</span>");
+                }%>
+            </h3>
         </div>
 
         <div class="clearfix"></div>
@@ -233,6 +240,7 @@
                                                     <th class="column-title">Predictions </th>
                                                     <th>Metrics</th>
                                                     <th>Classifier</th>
+                                                    <% if(model.getType().equals("CodeSmellDetection")) {out.print("<th>Smell</th>");} %>
                                                     <th class="column-title">Date </th>
                                                     </th>
                                                     <th class="bulk-actions" colspan="7">
@@ -244,9 +252,11 @@
                                             <tbody>
                                                 <%
                                                     int i = 1;
-                                                    for (Model m : project.getModels()){
+                                                    if(model.getType().equals("BugPrediction")) {
+                                                        for (Model m : project.getModels()){
                                                         //String visible = "hiddenRow";
                                                         //boolean disable = true;
+                                                        
                                                         if(m.getType().equals("BugPrediction")) {
                                                             //visible = "";
                                                             //disable = false;
@@ -267,7 +277,16 @@
                                                                     + "<td>" + m.getDate() + "</td>"
                                                                     + "</tr>");
                                                             i++;
-                                                            } else {
+                                                            }
+                                                        
+                                                        }
+                                                    } else {
+                                                            
+                                                            for (Model m : project.getModels()){
+                                                        //String visible = "hiddenRow";
+                                                        //boolean disable = true;
+                                                        
+                                                        if(m.getType().equals("CodeSmellDetection")) {
                                                             if (i % 2 != 0) {
                                                                 out.print("<tr class='even pointer "+ m.getType()+"'>");
                                                             } else {
@@ -282,12 +301,14 @@
                                                                     + "<td>Run " + i + "</td>"
                                                                     + "<td>" + metrics + "</td>"
                                                                     + "<td>" + classif + "</td>"
+                                                                    + "<td>" + m.getSmell() + "</td>"
                                                                     + "<td>" + m.getDate() + "</td>"
                                                                     + "</tr>");
                                                             i++;
-                                                        }
+                                                            }
                                                         
-                                                    }
+                                                        }
+                                                        }
                                                     %>
 
 

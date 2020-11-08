@@ -160,14 +160,14 @@ public class BuildModelServlet extends HttpServlet {
             model = ModelBuilder.buildModel(curr.getName(), curr.getGitURL(), metrics, classifier, type, smell);
         }
         if (model == null) { // calculate evaluation
-            Project p = new Project(projName, github, models);
+            curr.setModels(models);
             
             
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
             Date date = new Date();
             String now = dateFormat.format(date);
             System.out.println(models.size() + 1);
-            Model inputModel = new Model(p.getName() + "Model" + (models.size() + 1), p.getName(), p.getGitURL(), metrics, classifier,now, type, smell);
+            Model inputModel = new Model(curr.getName() + "Model" + (models.size() + 1), curr.getName(), curr.getGitURL(), metrics, classifier, now, type, smell);
             models.add(inputModel);
             
             String scatteringFolderPath = "C:/ProgettoTirocinio/gitdm/scattering/";
@@ -198,11 +198,10 @@ public class BuildModelServlet extends HttpServlet {
             String baseFolder = "C:/ProgettoTirocinio/gitdm/";
             WekaEvaluator we = new WekaEvaluator(baseFolder, projName, classifier.getClassifier(), classifier.getName(), inputModel.getName());
             
-            p.setModels(models);
+            //p.setModels(models);
             
-            ProjectHandler.addProject(p);
-            p = ProjectHandler.getAllProjects().get(ProjectHandler.getAllProjects().indexOf(p));
-            System.out.println(p.getModels());
+            ProjectHandler.addProject(curr);
+            System.out.println(ProjectHandler.getAllProjects().size());
             
             Evaluation eval = DataExtractor.getEvaluation(projFolderPath, projName, inputModel);
             session.setAttribute("accuracy", eval.getEvaluationSummary().getAccuracy());

@@ -66,6 +66,7 @@
                                 <th>URL</th>
                                 <th>Metrics</th>
                                 <th>Classifier</th>
+                                <th id="smellColumns" class="smell hiddenRow">Code Smell</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
@@ -84,6 +85,7 @@
                                     out.print("<td id='gitURL'>"+m.getProjURL()+"</td>");
                                     out.print("<td id='metrics'>"+metrics+"</td>");
                                     out.print("<td id='classifier'>"+m.getClassifier()+"</td>");
+                                    out.print("<td id='codeSmell' class=\"smell hiddenRow" + visible +"\">"+m.getSmell()+"</td>");
                                     out.print("<td id='date'>"+m.getDate()+"</td></tr>");
                                 }
                             %>
@@ -98,6 +100,7 @@
 
                         <form id="hidden_form" action="http://localhost:8080/PrimeLabServer/BuildModelServlet" method="POST" hidden>
                             <input type="text" value="" name="type" id="type">
+                            <input type="text" value="" name="smell" id="smell">
                             <input type="text" value="" name="github" id="github">
                             <input type="checkbox" value="WMC" name="metrics" id="metrics">
                             <input type="checkbox" value="DIT" name="metrics" id="metrics">
@@ -222,6 +225,7 @@
             var gitUrl = tr.find($('td#gitURL')).text();
             var metric = tr.find($('td#metrics')).text();
             var classifier = tr.find($('td#classifier')).text();
+            var smell = tr.find($('td#codeSmell')).text();
             var date = tr.find($('td#date')).text();
            // console.log(metric);
             var metrics = metric.split(", ");
@@ -241,8 +245,10 @@
                 }
             }
             f.find("#type").val($("#typePrediction").val());
+            f.find("input#smell").val(smell);
             f.find("input#github").val(gitUrl);
             f.find("input#classifier").val(classifier);
+            //console.log(f.find("input#smell").val());
             f.submit();
             //console.log("ok");
         });
@@ -254,11 +260,15 @@
                 //$("tr.CodeSmellDetection").css("visibility","hidden");
                 $("tr.BugPrediction").removeClass("hiddenRow");
                 $("tr.CodeSmellDetection").addClass("hiddenRow");
-                $(".data-visible").se
+                $(".smell").addClass("hiddenRow");
+                $(".smell").removeClass("col-md-2");
+               
             }
             if(type === "CodeSmellDetection") {
                 $("tr.BugPrediction").addClass("hiddenRow");
                 $("tr.CodeSmellDetection").removeClass("hiddenRow");
+                $(".smell").removeClass("hiddenRow");
+                $(".smell").addClass("col-md-2");
             }
         });
     });

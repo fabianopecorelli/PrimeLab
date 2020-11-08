@@ -92,6 +92,10 @@ public class Project implements Serializable {
         }
         return true;
     }
+
+    public boolean size() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
     

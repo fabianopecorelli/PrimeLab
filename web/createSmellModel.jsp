@@ -250,7 +250,7 @@
                             <div class="col-md-3 col-sm-6 col-xs-12">
                                 <select id="smell" name="smell" class="form-control" required="">
                                     <option value="">Choose...</option>
-                                    <option value="God Class">God Class</option>
+                                    <option value="Large Class">Large Class</option>
                                     <option value="Spaghetti Code">Spaghetti Code</option>
                                     <option value="Class Data Should Be Private">Class Data Should Be Private</option>
                                     <option value="Complex Class">Complex Class</option>
@@ -309,7 +309,7 @@
                                                 <div class="ln_solid"></div>
                                                 <div class="row">
                                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Smell:</label>
-                                                    <label class="control-label col-md-6 col-sm-6 col-xs-12" id="smellConf">God Class</label>
+                                                    <label class="control-label col-md-6 col-sm-6 col-xs-12" id="smellConf">Large Class</label>
                                                 </div>
 
                                                 <div class="ln_solid"></div>

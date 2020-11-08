@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="it.unisa.gitdm.bean.Metric"%>
 <%@page import="it.unisa.gitdm.bean.Model"%>
+<%session.setAttribute("typePrediction", "CodeSmellDetection"); %>
 <% Model model = (Model) session.getAttribute("modello");%>
 <%
     String metricOfModel = "";
@@ -221,6 +222,8 @@
                                                                 </li>
                                                               </ul>
                                                         </div>
+                                                    </div>
+                                                </div>
                                                      
                                                     <div class="form-group col-xs-12">
                                                         <div class="ln_solid"></div>
@@ -229,7 +232,7 @@
                                                         <div class="col-md-3 col-sm-6 col-xs-12">
                                                             <select id="smell" name="smell" class="form-control" required="">
                                                                 <option value="">Choose...</option>
-                                                                <option value="God Class" <% if (model.getSmell().equals("God Class")) out.print("selected=''");%>>God Class</option>
+                                                                <option value="Large Class" <% if (model.getSmell().equals("Large Class")) out.print("selected=''");%>>Large Class</option>
                                                                 <option value="Spaghetti Code" <% if (model.getSmell().equals("Spaghetti Code")) out.print("selected=''");%>>Spaghetti Code</option>
                                                                 <option value="Class Data Should Be Private" <% if (model.getSmell().equals("Class Data Should Be Private")) out.print("selected=''");%>>Class Data Should Be Private</option>
                                                                 <option value="Complex Class" <% if (model.getSmell().equals("Complex Class")) out.print("selected=''");%>>Complex Class</option>
@@ -267,7 +270,7 @@
                                                 <div class="ln_solid"></div>
                                                 <div class="row">
                                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Smell:</label>
-                                                    <label class="control-label col-md-6 col-sm-6 col-xs-12" id="smellConf">God Class</label>
+                                                    <label class="control-label col-md-6 col-sm-6 col-xs-12" id="smellConf">Large Class</label>
                                                 </div>
 
                                                 <div class="ln_solid"></div>
