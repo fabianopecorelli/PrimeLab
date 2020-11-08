@@ -21,15 +21,21 @@ public class Model implements Serializable{
     private ArrayList<Metric> metrics;
     private MyClassifier classifier;
     private String date;
+    private String type;
+    private String smell;
 
-    public Model(String name, String projName, String projURL, ArrayList<Metric> metrics, MyClassifier classifier, String date) {
+    public Model(String name, String projName, String projURL, ArrayList<Metric> metrics, MyClassifier classifier, String date, String type, String smell) {
         this.name = name;
         this.projName = projName;
         this.projURL = projURL;
         this.metrics = metrics;
         this.classifier = classifier;
         this.date = date;
+        this.type = type;
+        this.smell = smell;
     }
+    
+    
     
     public String getName() {
         return name;
@@ -78,10 +84,33 @@ public class Model implements Serializable{
     public void setDate(String date) {
         this.date = date;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getSmell() {
+        return smell;
+    }
+
+    public void setSmell(String smell) {
+        this.smell = smell;
+    }
+    
+    
+    
     
     @Override
     public String toString() {
-        return "Model{" + "name=" + name + ", metrics=" + metrics + ", classifier=" + classifier + '}';
+        if(smell == null) {
+            return "Model{" + "name=" + name + ", metrics=" + metrics + ", classifier=" + classifier + ", type=" + type + '}';
+        } else {
+            return "Model{" + "name=" + name + ", metrics=" + metrics + ", classifier=" + classifier + ", type=" + type + ", smell=" + this.smell + '}';
+        }
     }
 
     @Override
@@ -102,6 +131,9 @@ public class Model implements Serializable{
         }
         if (!Objects.equals(this.classifier.toString(), other.classifier.toString())) {
             System.err.print("different metrics");
+            return false;
+        }
+        if(!Objects.equals(this.smell, other.smell)) {
             return false;
         }
         return true;

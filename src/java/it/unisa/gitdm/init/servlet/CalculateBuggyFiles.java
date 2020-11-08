@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 /**
  * @author Dario
  */
-final class CalculateBuggyFiles {
+public final class CalculateBuggyFiles {
 
     private final List<FileBean> buggyFiles;
 
@@ -81,6 +81,9 @@ final class CalculateBuggyFiles {
             for (FileBean f : files) {
                 out.writeObject(f);
             }
+            out.flush();
+            out.close();
+            fileOut.close();
         }
 
         System.out.println(
