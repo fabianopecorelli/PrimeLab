@@ -18,12 +18,8 @@ import it.unisa.gitdm.bean.metrics.CKMetrics.CBO;
 import it.unisa.gitdm.bean.metrics.CKMetrics.RFC;
 import it.unisa.gitdm.bean.metrics.CKMetrics.WMC;
 import it.unisa.gitdm.bean.metrics.process.NumberOfFix;
-import it.unisa.gitdm.bean.metrics.smellMetrics.ELOC;
-import it.unisa.gitdm.bean.metrics.smellMetrics.NMNOPARAM;
-import it.unisa.gitdm.bean.metrics.smellMetrics.NOPA;
 import it.unisa.gitdm.evaluation.WekaEvaluator;
 import it.unisa.gitdm.metrics.CKMetrics;
-import it.unisa.gitdm.metrics.CodeSmellMetrics;
 import it.unisa.gitdm.metrics.ReadSourceCode;
 import it.unisa.gitdm.metrics.parser.bean.ClassBean;
 import it.unisa.gitdm.scattering.DeveloperFITreeManager;
@@ -97,9 +93,7 @@ public class TestFile {
         // Calculating file complexity
             for (Period p : periods) {
 
-                String dirPath = Config.baseDir + projectName + "/models/" + "antModel2";
-                Files.createDirectories(Paths.get(dirPath));
-                File periodData = new File(dirPath + "/predictors.csv");
+                File periodData = new File(baseFolderPath + projectName + "/predictors.csv");
                 PrintWriter pw1 = null;
             try {
                 pw1 = new PrintWriter(periodData);
@@ -114,7 +108,7 @@ public class TestFile {
                 pw1.write("name,"
                         + message + "isBuggy\n");
 
-                CalculateBuggyFiles cbf = new CalculateBuggyFiles(scatteringFolderPath, projectName, issueTracker, issueTrackerPath, productName, true, true, true);
+                CalculateBuggyFiles cbf = new CalculateBuggyFiles(scatteringFolderPath, projectName, issueTracker, issueTrackerPath, productName, false, false, false);
 
                 List<FileBean> periodBuggyFiles = cbf.getBuggyFiles();
                 
@@ -190,29 +184,23 @@ public class TestFile {
             }
             //end for calculate 
             
-            String modelName = "antModel2";
+            String modelName = "antModel1";
             //predizione
-            //WekaEvaluator we = new WekaEvaluator(baseFolderPath, projectName, new NaiveBayes(), "Naive Baesian", modelName);
+            WekaEvaluator we = new WekaEvaluator(baseFolderPath, projectName, new NaiveBayes(), "Naive Baesian", modelName);
             WekaEvaluator we1 = new WekaEvaluator(baseFolderPath, projectName, new Logistic(), "Logistic Regression", "antModel2");
             
             //file projects.txt
             ArrayList<Model> models = new ArrayList<Model>();
-            String type = "BugPrediction";
             
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
             Date date = new Date();
             String now = dateFormat.format(date);
             MyClassifier c1 = new MyClassifier("Logistic Regression");
             c1.setClassifier(new Logistic());
-            models.add(new Model("antModel2", "ant", "https://github.com/apache/ant.git", metrics, c1, now, type, null));
-            metrics = new ArrayList<Metric>();
-        metrics.add(new ELOC());
-        metrics.add(new NOPA());
-        metrics.add(new NMNOPARAM());
-            models.add(new Model("antModel1", "ant", "https://github.com/apache/ant.git", metrics, c1, "", "CodeSmellDetection", "Large Class"));
-//            MyClassifier c2 = new MyClassifier("Naive Baesian");
-//            c2.setClassifier(new NaiveBayes());
-//            models.add(new Model("antModel2", "ant", "https://github.com/apache/ant.git", metrics, c2, now, type));
+            models.add(new Model("antModel1", "ant", "https://github.com/apache/ant.git", metrics, c1, now));
+            MyClassifier c2 = new MyClassifier("Naive Baesian");
+            c2.setClassifier(new NaiveBayes());
+            models.add(new Model("antModel2", "ant", "https://github.com/apache/ant.git", metrics, c2, now));
             System.out.println(models);
             //create a project
             Project p1 = new Project("https://github.com/apache/ant.git");

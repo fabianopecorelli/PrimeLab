@@ -48,16 +48,6 @@
 
                     <div class="clearfix"></div>
                 </div>
-                <div class="x_title">
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li><label>Type Prdiction &nbsp;</label></li>
-                        <li><select id="typePrediction" name="typePrediction" class="form-control input-sm">
-                                <option value="BugPrediction" selected>Bug Prediction</option>
-                                <option value="CodeSmellDetection">Code Smell Detection</option>
-                            </select></li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
                 <div class="x_content">
                     <table id="datatable" class="table table-striped table-bordered">
                         <thead>
@@ -74,13 +64,9 @@
                         <tbody> 
                             <%
                                 for (Model m : models){
-                                    String visible = "hiddenRow";
-                                    if(m.getType().equals("BugPrediction")) {
-                                        visible = "";
-                                    }
                                     String metrics = m.getMetrics().toString();
                                     metrics = metrics.substring(1,metrics.length() -1);
-                                    out.print("<tr class=\"" + m.getType() + " " + visible +"\"><td id='project'>"+m.getProjName()+"</a></td>");
+                                    out.print("<tr><td id='project'>"+m.getProjName()+"</a></td>");
                                     out.print("<td id='gitURL'>"+m.getProjURL()+"</td>");
                                     out.print("<td id='metrics'>"+metrics+"</td>");
                                     out.print("<td id='classifier'>"+m.getClassifier()+"</td>");
@@ -97,7 +83,6 @@
 </div>
 
                         <form id="hidden_form" action="http://localhost:8080/PrimeLabServer/BuildModelServlet" method="POST" hidden>
-                            <input type="text" value="" name="type" id="type">
                             <input type="text" value="" name="github" id="github">
                             <input type="checkbox" value="WMC" name="metrics" id="metrics">
                             <input type="checkbox" value="DIT" name="metrics" id="metrics">
@@ -109,9 +94,6 @@
                             <input type="checkbox" value="LOC" name="metrics" id="metrics">
                             <input type="checkbox" value="NOM" name="metrics" id="metrics">
                             <input type="checkbox" value="NOO" name="metrics" id="metrics">
-                            <input type="checkbox" value="ELOC" name="metrics" id="metrics">
-                            <input type="checkbox" value="NOPA" name="metrics" id="metrics">
-                            <input type="checkbox" value="NMNOPARAM" name="metrics" id="metrics">
                             <input type="checkbox" value="numberOfChanges" name="metrics" id="metrics">
                             <input type="checkbox" value="numberOfCommittors" name="metrics" id="metrics">
                             <input type="checkbox" value="numberOfFix" name="metrics" id="metrics">
@@ -231,7 +213,7 @@
             var i;
             var j = 0;
             var str;
-            for(i = 0; i < 18; i++) {
+            for(i = 0; i < 15; i++) {
                 str = f.find("input#metrics").eq(i).val();
                 //console.log(str);
                 if(str === metrics[j]) {
@@ -240,26 +222,12 @@
                     j++;
                 }
             }
-            f.find("#type").val($("#typePrediction").val());
+            
             f.find("input#github").val(gitUrl);
             f.find("input#classifier").val(classifier);
             f.submit();
             //console.log("ok");
         });
         
-        $("#typePrediction").on("change", function(){
-            var type = $("#typePrediction").val();
-            if(type === "BugPrediction") {
-                //$("tr.BugPrediction").css("visibility","visible");
-                //$("tr.CodeSmellDetection").css("visibility","hidden");
-                $("tr.BugPrediction").removeClass("hiddenRow");
-                $("tr.CodeSmellDetection").addClass("hiddenRow");
-                $(".data-visible").se
-            }
-            if(type === "CodeSmellDetection") {
-                $("tr.BugPrediction").addClass("hiddenRow");
-                $("tr.CodeSmellDetection").removeClass("hiddenRow");
-            }
-        });
     });
 </script>

@@ -21,9 +21,6 @@ import it.unisa.gitdm.bean.metrics.process.NumberOfCommittors;
 import it.unisa.gitdm.bean.metrics.process.NumberOfFix;
 import it.unisa.gitdm.bean.metrics.scattering.SemanticScattering;
 import it.unisa.gitdm.bean.metrics.scattering.StructuralScattering;
-import it.unisa.gitdm.bean.metrics.smellMetrics.ELOC;
-import it.unisa.gitdm.bean.metrics.smellMetrics.NMNOPARAM;
-import it.unisa.gitdm.bean.metrics.smellMetrics.NOPA;
 
 /**
  *
@@ -78,15 +75,6 @@ public class MetricBuilder {
                     break;
                 case "semanticScattering":
                     m = new SemanticScattering();
-                    break;
-                case "ELOC":
-                    m = new ELOC();
-                    break;
-                case "NMNOPARAM":
-                    m = new NMNOPARAM();
-                    break;
-                case "NOPA":
-                    m = new NOPA();
                     break;
         }
         

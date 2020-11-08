@@ -23,26 +23,6 @@ import java.util.logging.Logger;
  */
 public class Git {
 
-    public static void clone(String url, boolean isSVN, String projectName, String dir, String version) throws IOException, InterruptedException {
-        System.out.println("Start cloning into " + dir);
-        String[] cmd;
-        File file = new File(dir);
-        if (file.exists()) {
-            if (isSVN) {
-                cmd = new String[]{"git", "svn", "clone", url, projectName};
-            } else {
-                if(version != null) {
-                    cmd = new String[]{"git", "clone", url, projectName, "--branch", version};
-                } else {
-                    cmd = new String[]{"git", "clone", url, projectName};
-                }
-            }
-            Process p = Runtime.getRuntime().exec(cmd, null, file);
-            p.waitFor();
-        }
-        System.out.println("End cloning");
-    }
-
     public static void clone(String url, boolean isSVN, String projectName, String dir) throws IOException, InterruptedException {
         System.out.println("Start cloning into " + dir);
         String[] cmd;
@@ -58,7 +38,7 @@ public class Git {
         }
         System.out.println("End cloning");
     }
-    
+
     public static List<Commit> extractCommit(File directory, boolean masterOnly) {
         String log = null;
         if (masterOnly) {

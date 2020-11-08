@@ -48,8 +48,7 @@ public class CosineSimilarity {
         System.out.println(System.getProperty("user.dir"));
         //rc/main/resources/stopword.txt
         this.stopwordList = new File(
-                "C:/ProgettoTirocinio/PrimeLab/src/java/main/resources/stopword.txt");
-        System.err.println(this.stopwordList.getAbsolutePath());
+                "src/java/main/resources/stopword.txt");
         if (!stopwordList.exists()) {
             File stopwordListDirectory = new File("semanAnalysis");
             stopwordListDirectory.mkdirs();

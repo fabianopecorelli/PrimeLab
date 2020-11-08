@@ -53,10 +53,10 @@ public class WekaEvaluator {
         } 
         CODICE VECCHIO*/
         String dirPath = Config.baseDir + projectName + "/models/" + modelName;
-        /*Files.createDirectories(Paths.get(dirPath));
-        Files.copy(Paths.get(baseFolderPath + projectName + "/predictors.csv"),  Paths.get(Config.baseDir + projectName + "/models/" + modelName + "/predictors.csv"));*/
+        Files.createDirectories(Paths.get(dirPath));
+        Files.copy(Paths.get(baseFolderPath + projectName + "/predictors.csv"),  Paths.get(Config.baseDir + projectName + "/models/" + modelName + "/predictors.csv"));
         CSVLoader loader = new CSVLoader();
-        String filePath = dirPath + "/predictors.csv";
+        String filePath = baseFolderPath + projectName + "/predictors.csv";
         System.out.println(filePath);
         loader.setSource(new File(filePath));
         try {
@@ -99,7 +99,7 @@ public class WekaEvaluator {
             //numero di colonne
             int classFeatureIndex = 0;
             for (int i = 0; i < train.numAttributes(); i++) {
-                if (train.attribute(i).name().equals("isBuggy") || train.attribute(i).name().equals("isSmell")) {
+                if (train.attribute(i).name().equals("isBuggy")) {
                     classFeatureIndex = i;
                     break;
                 }

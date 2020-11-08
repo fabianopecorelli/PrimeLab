@@ -5,10 +5,8 @@
  */
 package it.unisa.gitdm.init.servlet;
 
-import it.unisa.gitdm.experiments.CalculateSmellFiles;
 import it.unisa.gitdm.bean.Model;
 import it.unisa.gitdm.bean.Project;
-import it.unisa.gitdm.source.Git;
 import it.unisa.primeLab.Config;
 import it.unisa.primeLab.ProjectHandler;
 import java.io.File;
@@ -25,14 +23,10 @@ import java.util.ArrayList;
  * @author giuse
  */
 public class Console {
-    public static void main(String[] args) throws FileNotFoundException, IOException, InterruptedException {
-        String path = "C:/ProgettoTirocinio/dataset/apache-ant-data/apache_1.8.3/Validated";
-        CalculateSmellFiles cs = new CalculateSmellFiles("ant", "Large Class", "1.8.1");
-//        String url = "https://github.com/apache/nutch.git";
-//        String projectName = "nutch";
-//        String dir = "C:/weka";
-//        String version = "branch-1.4";
-//        Git.clone(url, false, projectName, dir, version);
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        deleteModel("antModel14");
+        //updateModelName("antModel9", "antModel8");
+        
     }
     
     private static void deleteModel(String modelName) throws FileNotFoundException, IOException {
