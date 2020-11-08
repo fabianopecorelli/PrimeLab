@@ -114,6 +114,7 @@ public class Jira {
 
             try {
                 url = new URL(address + option);
+                System.out.println(url);
             } catch (MalformedURLException ex) {
                 Logger.getLogger(Jira.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -275,7 +276,7 @@ public class Jira {
     private static void setInvolvedCommit(Bug issueToAdd, String address, String projectName, String patchURL, boolean isSVN) throws MalformedURLException, InterruptedException {
 
         Process process = new Process();
-        process.initGitRepositoryFromFile("/home/sesa/Development/scattering/" + projectName.toLowerCase() + "/gitRepository.data");
+        process.initGitRepositoryFromFile("C:/ProgettoTirocinio/gitdm/scattering/" + projectName.toLowerCase() + "/gitRepository.data");
         GitRepository repository = process.getGitRepository();
 
         String url = address + "browse/" + projectName + "-" + issueToAdd.getID() + "?jql=project+%3D+"
@@ -286,7 +287,10 @@ public class Jira {
 
         BrowserEngine browser = BrowserFactory.getWebKit();
         Page page = browser.navigate(url);
-        page.wait(10000);
+        synchronized (page) {
+            page.wait(10000);
+        }
+           
         try {
             List<Element> list = page.getDocument().queryAll(".changesetid");
             System.out.println("Numero di commit in list: " + list.size());
