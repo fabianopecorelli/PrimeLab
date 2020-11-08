@@ -13,6 +13,4 @@ package it.unisa.primeLab;
 ///home/fabiano/Desktop/primeLab/
 public class Config {
     public static final String baseDir = "C:/ProgettoTirocinio/projects/";
-    public static final String baseFolderPath = "C:/ProgettoTirocinio/gitdm/";
-    public static final String scatteringFolderPath = "C:/ProgettoTirocinio/gitdm/scattering/";
 }

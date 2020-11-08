@@ -32,12 +32,12 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         //String repoURL = "https://github.com/apache/ant.git";
         //String repoURL = "https://github.com/fabianopecorelli/provaPerTesi.git";
-        String repoURL = "https://github.com/apache/nutch.git";
-        String projectName = "ant1.8";
+        String repoURL = "https://github.com/gerryS2xda/SmartLab.git";
+        String projectName = "SmartLab";
         String where = "C:/ProgettoTirocinio/gitdm/";
         String scatteringFolder = "C:/ProgettoTirocinio/gitdm/scattering/";
-        String issueTracker = "jira";
-        String bugzillaUrl = "https://issues.apache.org/jira/";
+        String issueTracker = "bugzilla";
+        String bugzillaUrl = "https://issues.apache.org/bugzilla/";
         //classifier
         //J48 classifier = new J48();
         RandomForest classifier = new RandomForest();
@@ -46,16 +46,16 @@ public class Main {
         String classifierName = "j48";
         String modelName = "BBB";
 
-        Main.initAndCheckout(repoURL, where, projectName, "All", scatteringFolder, issueTracker, bugzillaUrl, "ant1.8", true, true, false, classifier, classifierName, modelName);
+        Main.initAndCheckout(repoURL, where, projectName, "All", scatteringFolder, issueTracker, bugzillaUrl, "SmartLab", true, true, false, classifier, classifierName, modelName);
     }
 
     public static void initAndCheckout(String repoURL, String baseFolder, String projectName, String periodLength,
             String scatteringFolderPath, String issueTracker, String issueTrackerPath, String productName, boolean initRepository, boolean initIssueTracker, boolean isSVN, Classifier classifier, String classifierName, String modelName) throws IOException, InterruptedException {
-       // Git.clone(repoURL, isSVN, projectName, baseFolder);
+        Git.clone(repoURL, isSVN, projectName, baseFolder);
               Checkout checkout = new Checkout(projectName, periodLength, baseFolder, scatteringFolderPath, initRepository);
-//           CalculateDeveloperStructuralScattering calculateDeveloperStructuralScattering = new CalculateDeveloperStructuralScattering(projectName, periodLength, scatteringFolderPath);
-//          CalculateDeveloperSemanticScattering calculateDeveloperSemanticScattering = new CalculateDeveloperSemanticScattering(projectName, periodLength, baseFolder, scatteringFolderPath);
-        //CalculateBuggyFiles calculateBuggyFiles = new CalculateBuggyFiles(scatteringFolderPath, projectName, issueTracker, issueTrackerPath, productName, initIssueTracker, true, isSVN);
+           CalculateDeveloperStructuralScattering calculateDeveloperStructuralScattering = new CalculateDeveloperStructuralScattering(projectName, periodLength, scatteringFolderPath);
+          CalculateDeveloperSemanticScattering calculateDeveloperSemanticScattering = new CalculateDeveloperSemanticScattering(projectName, periodLength, baseFolder, scatteringFolderPath);
+        CalculateBuggyFiles calculateBuggyFiles = new CalculateBuggyFiles(scatteringFolderPath, projectName, issueTracker, issueTrackerPath, productName, initIssueTracker, false, isSVN);
          //CalculatePredictors calculatePredictors = new CalculatePredictors(projectName, issueTracker, issueTrackerPath, productName, periodLength, baseFolder, scatteringFolderPath);
               // WekaEvaluator we = new WekaEvaluator(baseFolder, projectName, classifier, classifierName, modelName);
         /*

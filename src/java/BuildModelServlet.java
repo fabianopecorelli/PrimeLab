@@ -11,7 +11,7 @@ import it.unisa.gitdm.bean.Model;
 import it.unisa.gitdm.bean.MyClassifier;
 import it.unisa.gitdm.bean.Project;
 import it.unisa.gitdm.evaluation.WekaEvaluator;
-import it.unisa.gitdm.init.servlet.CalculateBuggyFiles;
+import it.unisa.gitdm.experiments.CalculateBuggyFiles;
 import it.unisa.gitdm.experiments.CalculateDeveloperSemanticScattering;
 import it.unisa.gitdm.experiments.CalculateDeveloperStructuralScattering;
 import it.unisa.gitdm.experiments.Checkout;
@@ -104,40 +104,18 @@ public class BuildModelServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
         
-        String type =(String) request.getParameter("type");
-        if(type == null || type.equals("")) {
-            type = (String) session.getAttribute("typePrediction");
-        }
-        String version = request.getParameter("version");
-        if(version == null) {
-            version = "";
-        }
-        String smell = request.getParameter("smell");
-        
-        System.out.println(type);
         // GET REQUEST PARAMETER
         String github = request.getParameter("github");
         Project curr = new Project(github);
-        ArrayList<Model> models = new ArrayList<Model>();
-        String issueTracker = "";
-        String issueTrackerName = "";
         try {
             ProjectHandler.setCurrentProject(curr);
-            models = ProjectHandler.getCurrentProject().getModels();
-            issueTracker = request.getParameterValues("issueTracker")[0];
-            String[] parts = issueTracker.split("/");
-            issueTrackerName = parts[parts.length - 1];
         } catch(NullPointerException e) {
         }
         
-        
+        String issueTracker = request.getParameterValues("issueTracker")[0];
         String[] checkedMetrics = request.getParameterValues("metrics");
         ArrayList<Metric> metrics = new ArrayList<Metric>();
-        //System.out.println(issueTracker);
-        
-        
-        
-        //System.out.println(issueTrackerName);
+        System.out.println(issueTracker);
         System.out.println(checkedMetrics[0]);
         for (String s : checkedMetrics) {
             System.out.println(s);
@@ -157,17 +135,17 @@ public class BuildModelServlet extends HttpServlet {
 //        System.out.println("*****"+curr.getName());
         Model model = null;
         if(ProjectHandler.getCurrentProject() != null) {
-            model = ModelBuilder.buildModel(curr.getName(), curr.getGitURL(), metrics, classifier, type, smell);
+            model = ModelBuilder.buildModel(curr.getName(), curr.getGitURL(), metrics, classifier);
         }
         if (model == null) { // calculate evaluation
+            ArrayList<Model> models = new ArrayList<Model>();
             Project p = new Project(projName, github, models);
-            
             
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
             Date date = new Date();
             String now = dateFormat.format(date);
-            System.out.println(models.size() + 1);
-            Model inputModel = new Model(p.getName() + "Model" + (models.size() + 1), p.getName(), p.getGitURL(), metrics, classifier,now, type, smell);
+            
+            Model inputModel = new Model(p.getName() + "Model" + (p.getModels().size() + 1), p.getName(), p.getGitURL(), metrics, classifier,now);
             models.add(inputModel);
             
             String scatteringFolderPath = "C:/ProgettoTirocinio/gitdm/scattering/";
@@ -175,31 +153,39 @@ public class BuildModelServlet extends HttpServlet {
             
             String periodLength = "All";
             
-            //check if exist repository
-//            boolean isSVN = false;
-//            try {
-//                Git.clone(p.getGitURL(), isSVN, p.getName(), baseFolderPath);
-//            } catch (InterruptedException ex) {
-//                Logger.getLogger(BuildModelServlet.class.getName()).log(Level.SEVERE, null, ex);
+//            //check if exist repository
+//            if(Files.notExists(Paths.get(baseFolderPath + p.getName()), LinkOption.NOFOLLOW_LINKS)) {
+//                try {
+//                    Git.clone(p.getGitURL(), false, p.getName(), baseFolderPath);
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(BuildModelServlet.class.getName()).log(Level.SEVERE, null, ex);
+//                }
 //            }
-//
-//            boolean init = (Files.notExists(Paths.get(scatteringFolderPath + "/" + p.getName() + "buggyFiles.data"), LinkOption.NOFOLLOW_LINKS) || Files.notExists(Paths.get(scatteringFolderPath + p.getName() + "/" + periodLength + "/developersChanges.data"), LinkOption.NOFOLLOW_LINKS));
-//            System.out.println(init);
-//            Checkout checkout = new Checkout(p.getName(), periodLength, baseFolderPath, scatteringFolderPath, true);
+//            if(Files.notExists(Paths.get(scatteringFolderPath + "/" + p.getName() + "buggyFiles.data"), LinkOption.NOFOLLOW_LINKS) || Files.notExists(Paths.get(scatteringFolderPath + p.getName() + "/"
+//                + periodLength + "/developersChanges.data"), LinkOption.NOFOLLOW_LINKS)) {
+//                Checkout checkout = new Checkout(p.getName(), periodLength, baseFolderPath, scatteringFolderPath, true);
+//            }
 //            
-//            CalculateDeveloperStructuralScattering calculateDeveloperStructuralScattering = new CalculateDeveloperStructuralScattering(p.getName(), periodLength, scatteringFolderPath);
+//            if(Files.notExists(Paths.get(scatteringFolderPath + p.getName() + "/" + periodLength + "/structuralScattering.csv"), LinkOption.NOFOLLOW_LINKS) || Files.notExists(Paths.get(scatteringFolderPath + p.getName()
+//                + "/" + periodLength + "/developersChanges.data"), LinkOption.NOFOLLOW_LINKS)) {
+//                CalculateDeveloperStructuralScattering calculateDeveloperStructuralScattering = new CalculateDeveloperStructuralScattering(p.getName(), periodLength, scatteringFolderPath);
+//            }
 //            
-//            CalculateDeveloperSemanticScattering calculateDeveloperSemanticScattering = new CalculateDeveloperSemanticScattering(p.getName(), periodLength, baseFolderPath, scatteringFolderPath);
+//            if(Files.notExists(Paths.get(scatteringFolderPath + p.getName() + "/" + periodLength + "/semanticScattering.csv"), LinkOption.NOFOLLOW_LINKS)) {
+//                CalculateDeveloperSemanticScattering calculateDeveloperSemanticScattering = new CalculateDeveloperSemanticScattering(p.getName(), periodLength, baseFolderPath, scatteringFolderPath);
+//            }
 //            
-//            CalculateBuggyFiles cbf = new CalculateBuggyFiles(scatteringFolderPath, p.getName(), issueTrackerName, issueTracker, p.getName(), true, true, isSVN);
+//            if(Files.notExists(Paths.get(scatteringFolderPath + File.separator + p.getName() + File.separator + "buggyFiles.data"), LinkOption.NOFOLLOW_LINKS)) {
+//                CalculateBuggyFiles calculateBuggyFiles = new CalculateBuggyFiles(scatteringFolderPath, p.getName(), issueTracker, issueTracker, p.getName(), true, false, false);
+//            }
             
-            CalculatePredictors cp = new CalculatePredictors(projName, issueTrackerName, issueTracker, projName, "All", baseFolderPath, scatteringFolderPath, inputModel, version);
+            CalculatePredictors.CalculateSpecificPredictors(projName, issueTracker, issueTracker, projName, "All", baseFolderPath, scatteringFolderPath, inputModel);
             
             String baseFolder = "C:/ProgettoTirocinio/gitdm/";
             WekaEvaluator we = new WekaEvaluator(baseFolder, projName, classifier.getClassifier(), classifier.getName(), inputModel.getName());
             
             p.setModels(models);
-            
+            //non salva il progetto
             ProjectHandler.addProject(p);
             p = ProjectHandler.getAllProjects().get(ProjectHandler.getAllProjects().indexOf(p));
             System.out.println(p.getModels());
@@ -213,7 +199,6 @@ public class BuildModelServlet extends HttpServlet {
             session.setAttribute("modello", inputModel);
             session.setAttribute("predictors", eval.getAnalyzedClasses());
             session.setAttribute("issueTracker", issueTracker);
-            session.setAttribute("typePrediction", type);
             ServletContext sc = getServletContext();
             RequestDispatcher rd = sc.getRequestDispatcher("/prediction.jsp");
             rd.forward(request, response);
@@ -228,7 +213,6 @@ public class BuildModelServlet extends HttpServlet {
             session.setAttribute("modello", model);
             session.setAttribute("predictors", eval.getAnalyzedClasses());
             session.setAttribute("issueTracker", issueTracker);
-            session.setAttribute("typePrediction", type);
             ServletContext sc = getServletContext();
             RequestDispatcher rd = sc.getRequestDispatcher("/prediction.jsp");
             rd.forward(request, response);

@@ -61,7 +61,7 @@ public final class JiraRepository implements BugTrackingSystemRepository, Serial
      */
     @Override
     public void save(String filePath) {
-        File dir = new File(filePath.substring(0, filePath.lastIndexOf("/")));
+        File dir = new File(filePath.substring(0, filePath.lastIndexOf(File.separator)));
         dir.mkdirs();
         try (
                 FileOutputStream fileOut = new FileOutputStream(filePath);

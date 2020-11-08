@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <%-- 
     Document   : header
     Created on : Sep 23, 2016, 1:06:12 AM
@@ -6,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
