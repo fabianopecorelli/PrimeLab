@@ -17,6 +17,7 @@ public class Project implements Serializable {
     
     private String name;
     private String gitURL;
+    private String version;
     private ArrayList<Model> models;
     
     public Project (String gitURL){
@@ -27,8 +28,19 @@ public class Project implements Serializable {
         this.name = name;
         this.gitURL = gitURL;
         this.models = models;
+        this.version = "";
     }    
 
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    
+    
     public String getName() {
         return name;
     }
@@ -73,6 +85,9 @@ public class Project implements Serializable {
         }
         final Project other = (Project) obj;
         if (!Objects.equals(this.gitURL, other.gitURL)) {
+            return false;
+        }
+        if (!Objects.equals(this.version, other.version)) {
             return false;
         }
         return true;

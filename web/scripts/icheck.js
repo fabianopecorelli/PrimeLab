@@ -437,7 +437,7 @@
 function onCKMetrics(input) {
     if(input.attr("id") === "all_CKMetrics") {
         
-        for(var i = 0; i < 10; i++) {
+        for(var i = 0; i < 13; i++) {
             on($("input#CKMetrics").eq(i), _checked);
         }
         //console.log($("input#CKMetrics"));
@@ -462,7 +462,7 @@ function onScattering(input) {
 }
 function offCKMetrics(input) {
     if(input.attr("id") === "all_CKMetrics") {
-        for(var i = 0; i < 10; i++) {
+        for(var i = 0; i < 13; i++) {
             off($("input#CKMetrics").eq(i), _checked);
         }
         
@@ -487,7 +487,7 @@ function offScattering(input) {
   function onAll(input) {
       if(input.attr("id") === "all_CKMetrics") {
         
-        for(var i = 0; i < 10; i++) {
+        for(var i = 0; i < 13; i++) {
             on($("input#CKMetrics").eq(i), _checked);
         }
         //console.log($("input#CKMetrics"));
@@ -508,7 +508,7 @@ function offScattering(input) {
   
   function offAll(input) {
           if(input.attr("id") === "all_CKMetrics") {
-        for(var i = 0; i < 10; i++) {
+        for(var i = 0; i < 13; i++) {
             off($("input#CKMetrics").eq(i), _checked);
         }
         

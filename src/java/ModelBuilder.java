@@ -23,11 +23,11 @@ import weka.classifiers.Classifier;
  */
 public class ModelBuilder {
 
-    public static Model buildModel(String projName, String projURL, ArrayList<Metric> metrics, MyClassifier classifier) {
+    public static Model buildModel(String projName, String projURL, ArrayList<Metric> metrics, MyClassifier classifier, String type, String smell) {
         System.out.println("*************"+ProjectHandler.getCurrentProject());
         ArrayList<Model> models = ProjectHandler.getCurrentProject().getModels();
         
-        Model inputModel = new Model("Model", projName, projURL, metrics, classifier,"");
+        Model inputModel = new Model("Model", projName, projURL, metrics, classifier, "", type, smell);
         if (models != null) {
             for (Model model: models){
                 System.out.println(model+" --- "+inputModel+" --- "+model.equals(inputModel));
