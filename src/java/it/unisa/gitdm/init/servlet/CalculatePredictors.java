@@ -108,7 +108,7 @@ public class CalculatePredictors {
                     Git.gitReset(new File(projectPath));
                     Git.clean(new File(projectPath));
                     
-                    List<FileBean> repoFiles = Git.gitList(new File(projectPath));
+                    List<FileBean> repoFiles = Git.gitList(new File(projectPath), version);
                     System.out.println("Repo size: "+repoFiles.size());
                     for (FileBean file : repoFiles) {
                         if (file.getPath().contains(".java")) {

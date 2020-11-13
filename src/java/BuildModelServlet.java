@@ -121,14 +121,7 @@ public class BuildModelServlet extends HttpServlet {
         ArrayList<Model> models = new ArrayList<Model>();
         String issueTracker = "";
         String issueTrackerName = "";
-        try {
-            ProjectHandler.setCurrentProject(curr);
-            models = ProjectHandler.getCurrentProject().getModels();
-            issueTracker = request.getParameterValues("issueTracker")[0];
-            String[] parts = issueTracker.split("/");
-            issueTrackerName = parts[parts.length - 1];
-        } catch(NullPointerException e) {
-        }
+        
         
         
         String[] checkedMetrics = request.getParameterValues("metrics");
@@ -151,17 +144,38 @@ public class BuildModelServlet extends HttpServlet {
         String[] splitted = dirName.split("/");
         String projName = splitted[splitted.length - 1];
         curr.setName(projName);
+        curr.setVersion(version);
         String projFolderPath = "" + Config.baseDir + projName;
 
 //        System.out.println("*******"+ProjectHandler.getCurrentProject().getModels().toString());
 //        System.out.println("*****"+curr.getName());
-        Model model = null;
-        if(ProjectHandler.getCurrentProject() != null) {
-            model = ModelBuilder.buildModel(curr.getName(), curr.getGitURL(), metrics, classifier, type, smell);
+        try {
+            ProjectHandler.setCurrentProject(curr);
+            curr = ProjectHandler.getCurrentProject();
+            if(curr.getName().equals(ProjectHandler.getCurrentProject().getName())) {
+                models = ProjectHandler.getCurrentProject().getModels();
+            } else {
+                models = new ArrayList<Model>();
+            }
+            issueTracker = request.getParameterValues("issueTracker")[0];
+        } catch(NullPointerException e) {
+            curr = new Project(github);
+            curr.setName(projName);
+            curr.setVersion(version);
+            
+        }
+        
+        if(issueTracker == null) {
+            issueTracker = "";
+        }
+        String[] parts = issueTracker.split("/");
+        issueTrackerName = parts[parts.length - 1];
+        Model model = ModelBuilder.buildModel(curr.getName(), curr.getGitURL(), metrics, classifier, type, smell);
+        for(Project pro : ProjectHandler.getAllProjects()) {
+            System.out.print(pro);
         }
         if (model == null) { // calculate evaluation
             curr.setModels(models);
-            
             
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
             Date date = new Date();
@@ -176,22 +190,22 @@ public class BuildModelServlet extends HttpServlet {
             String periodLength = "All";
             
             //check if exist repository
-//            boolean isSVN = false;
+            boolean isSVN = false;
 //            try {
-//                Git.clone(p.getGitURL(), isSVN, p.getName(), baseFolderPath);
+//                Git.clone(curr.getGitURL(), isSVN, curr.getName(), baseFolderPath, version);
 //            } catch (InterruptedException ex) {
 //                Logger.getLogger(BuildModelServlet.class.getName()).log(Level.SEVERE, null, ex);
 //            }
 //
-//            boolean init = (Files.notExists(Paths.get(scatteringFolderPath + "/" + p.getName() + "buggyFiles.data"), LinkOption.NOFOLLOW_LINKS) || Files.notExists(Paths.get(scatteringFolderPath + p.getName() + "/" + periodLength + "/developersChanges.data"), LinkOption.NOFOLLOW_LINKS));
+//            boolean init = (Files.notExists(Paths.get(scatteringFolderPath + "/" + curr.getName() + "buggyFiles.data"), LinkOption.NOFOLLOW_LINKS) || Files.notExists(Paths.get(scatteringFolderPath + curr.getName() + "/" + periodLength + "/developersChanges.data"), LinkOption.NOFOLLOW_LINKS));
 //            System.out.println(init);
-//            Checkout checkout = new Checkout(p.getName(), periodLength, baseFolderPath, scatteringFolderPath, true);
+//            Checkout checkout = new Checkout(curr.getName(), periodLength, baseFolderPath, scatteringFolderPath, true);
 //            
-//            CalculateDeveloperStructuralScattering calculateDeveloperStructuralScattering = new CalculateDeveloperStructuralScattering(p.getName(), periodLength, scatteringFolderPath);
+//            CalculateDeveloperStructuralScattering calculateDeveloperStructuralScattering = new CalculateDeveloperStructuralScattering(curr.getName(), periodLength, scatteringFolderPath);
 //            
-//            CalculateDeveloperSemanticScattering calculateDeveloperSemanticScattering = new CalculateDeveloperSemanticScattering(p.getName(), periodLength, baseFolderPath, scatteringFolderPath);
-//            
-//            CalculateBuggyFiles cbf = new CalculateBuggyFiles(scatteringFolderPath, p.getName(), issueTrackerName, issueTracker, p.getName(), true, true, isSVN);
+//            CalculateDeveloperSemanticScattering calculateDeveloperSemanticScattering = new CalculateDeveloperSemanticScattering(curr.getName(), periodLength, baseFolderPath, scatteringFolderPath);
+            
+
             
             CalculatePredictors cp = new CalculatePredictors(projName, issueTrackerName, issueTracker, projName, "All", baseFolderPath, scatteringFolderPath, inputModel, version);
             
@@ -213,6 +227,7 @@ public class BuildModelServlet extends HttpServlet {
             session.setAttribute("predictors", eval.getAnalyzedClasses());
             session.setAttribute("issueTracker", issueTracker);
             session.setAttribute("typePrediction", type);
+            session.setAttribute("project", curr);
             ServletContext sc = getServletContext();
             RequestDispatcher rd = sc.getRequestDispatcher("/prediction.jsp");
             rd.forward(request, response);
@@ -228,6 +243,7 @@ public class BuildModelServlet extends HttpServlet {
             session.setAttribute("predictors", eval.getAnalyzedClasses());
             session.setAttribute("issueTracker", issueTracker);
             session.setAttribute("typePrediction", type);
+            session.setAttribute("project", ProjectHandler.getCurrentProject());
             ServletContext sc = getServletContext();
             RequestDispatcher rd = sc.getRequestDispatcher("/prediction.jsp");
             rd.forward(request, response);

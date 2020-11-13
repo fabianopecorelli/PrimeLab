@@ -2,6 +2,7 @@
 import it.unisa.gitdm.bean.Metric;
 import it.unisa.gitdm.bean.Model;
 import it.unisa.gitdm.bean.MyClassifier;
+import it.unisa.gitdm.bean.Project;
 import it.unisa.primeLab.ProjectHandler;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +26,13 @@ public class ModelBuilder {
 
     public static Model buildModel(String projName, String projURL, ArrayList<Metric> metrics, MyClassifier classifier, String type, String smell) {
         System.out.println("*************"+ProjectHandler.getCurrentProject());
-        ArrayList<Model> models = ProjectHandler.getCurrentProject().getModels();
+        Project pro = ProjectHandler.getCurrentProject();
+        ArrayList<Model> models =  new ArrayList<Model>();
+        try {
+            models = ProjectHandler.getCurrentProject().getModels();
+        } catch(NullPointerException e) {
+            return null;
+        }
         
         Model inputModel = new Model("Model", projName, projURL, metrics, classifier, "", type, smell);
         if (models != null) {

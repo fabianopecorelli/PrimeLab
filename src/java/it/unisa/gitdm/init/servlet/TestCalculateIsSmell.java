@@ -65,6 +65,7 @@ public class TestCalculateIsSmell {
         Model model = new Model("antModel1", "ant", "https://github.com/apache/ant.git", metrics, c1, "", type, smell);
         Process process = new Process();
         String periodLength = "All";
+        String version  = "rel/1.8.3";
         
         String projectName = model.getProjName();
         process.initGitRepositoryFromFile(scatteringFolderPath + "/" + projectName
@@ -106,7 +107,7 @@ public class TestCalculateIsSmell {
             Git.gitReset(new File(projectPath));
             Git.clean(new File(projectPath));
             
-            List<FileBean> repoFiles = Git.gitList(new File(projectPath));
+            List<FileBean> repoFiles = Git.gitList(new File(projectPath), version);
             System.out.println("Repo size: "+repoFiles.size());
             
             
@@ -163,6 +164,7 @@ public class TestCalculateIsSmell {
             Project p1 = new Project("https://github.com/apache/ant.git");
             p1.setModels(models);
             p1.setName("ant");
+            p1.setVersion(version);
             
             ArrayList<Project> projects;
             //projects.add(p1);

@@ -4,6 +4,7 @@
 <%@page import="java.util.ArrayList"%>
 <jsp:include page="header.jsp" />
 <% ArrayList<Model> models = (ArrayList<Model>) session.getAttribute("models");%>
+<%ArrayList<Project> projects = (ArrayList<Project>) session.getAttribute("projects");%>
 <!-- top navigation -->
 <!--<div class="top_nav">
     <div class="nav_menu">
@@ -11,11 +12,9 @@
             <div class="nav toggle">
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
             </div>
-
             <ul class="nav navbar-nav navbar-right">
                 <li class="">
                     <label class="breadcrumb"><a href="#"> Pagina 1 </a> | <a href="#"> Pagina 2 </a> | Pagina 3 </label>
-
                 </li>
             </ul>
         </nav>
@@ -68,6 +67,7 @@
                                 <th>Classifier</th>
                                 <th id="smellColumns" class="smell hiddenRow">Code Smell</th>
                                 <th>Date</th>
+                                
                             </tr>
                         </thead>
 
@@ -76,17 +76,26 @@
                             <%
                                 for (Model m : models){
                                     String visible = "hiddenRow";
+                                    String version = "";
                                     if(m.getType().equals("BugPrediction")) {
                                         visible = "";
                                     }
+                                    for(Project p : projects) {
+                                        if(p.getGitURL().equals(m.getProjURL())) {
+                                            version = p.getVersion();
+                                            break;
+                                        }
+                                    }
                                     String metrics = m.getMetrics().toString();
                                     metrics = metrics.substring(1,metrics.length() -1);
-                                    out.print("<tr class=\"" + m.getType() + " " + visible +"\"><td id='project'>"+m.getProjName()+"</a></td>");
+                                    out.print("<tr class=\"" + m.getType() + " " + visible +"\"><td id='project' class='" + version + "'>"+m.getProjName()+"</td>");
                                     out.print("<td id='gitURL'>"+m.getProjURL()+"</td>");
                                     out.print("<td id='metrics'>"+metrics+"</td>");
                                     out.print("<td id='classifier'>"+m.getClassifier()+"</td>");
                                     out.print("<td id='codeSmell' class=\"smell hiddenRow" + visible +"\">"+m.getSmell()+"</td>");
-                                    out.print("<td id='date'>"+m.getDate()+"</td></tr>");
+                                    out.print("<td id='date'>"+m.getDate()+"</td>");
+                                    
+                                    out.print("</tr>");
                                 }
                             %>
                         </tbody>
@@ -101,6 +110,7 @@
                         <form id="hidden_form" action="http://localhost:8080/PrimeLabServer/BuildModelServlet" method="POST" hidden>
                             <input type="text" value="" name="type" id="type">
                             <input type="text" value="" name="smell" id="smell">
+                            <input type="text" value="" name="version" id="version">
                             <input type="text" value="" name="github" id="github">
                             <input type="checkbox" value="WMC" name="metrics" id="metrics">
                             <input type="checkbox" value="DIT" name="metrics" id="metrics">
@@ -221,8 +231,9 @@
             var tr = $(this).parent();
             
             //row data
-            var projectName = tr.find($('td#project')).text();
+            var project = tr.find($('td#project'));
             var gitUrl = tr.find($('td#gitURL')).text();
+            var version = project.attr("class");
             var metric = tr.find($('td#metrics')).text();
             var classifier = tr.find($('td#classifier')).text();
             var smell = tr.find($('td#codeSmell')).text();
@@ -244,11 +255,12 @@
                     j++;
                 }
             }
-            f.find("#type").val($("#typePrediction").val());
+            f.find("input#version").val(version);
+            f.find("input#type").val($("#typePrediction").val());
             f.find("input#smell").val(smell);
             f.find("input#github").val(gitUrl);
             f.find("input#classifier").val(classifier);
-            //console.log(f.find("input#smell").val());
+            //console.log(version);
             f.submit();
             //console.log("ok");
         });

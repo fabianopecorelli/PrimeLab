@@ -20,7 +20,7 @@
 <% Model model = (Model) session.getAttribute("modello");%>
 <%String issueTracker = (String) session.getAttribute("issueTracker");%>
 <% ArrayList<EvaluationPredictors> predictors = (ArrayList<EvaluationPredictors>) session.getAttribute("predictors");%>
-<% Project project = ProjectHandler.getCurrentProject();%>
+<% Project project = (Project) session.getAttribute("project");%>
 <%
     String metricOfModel = "";
     for (Metric m : model.getMetrics()) {
@@ -136,11 +136,11 @@
                                                     <div class="col-md-3 col-sm-6 col-xs-12">
                                                         <select id="heard" class="form-control" required="">
                                                             <option value="">Choose...</option>
-                                                            <option value="Decision Table Majority" <% if (classifier.getClassifier().getClass() == DecisionTable.class) out.print("selected=''");%>>Decision Table Majority</option>
-                                                            <option value="Logistic Regression"<% if (classifier.getClassifier().getClass() == Logistic.class) out.print("selected=''");%>>Logistic Regression</option>
-                                                            <option value="Multi Layer Perceptron"<% if (classifier.getClassifier().getClass() == MultilayerPerceptron.class) out.print("selected=''");%>>Multi Layer Perceptron</option>
-                                                            <option value="Naive Baesian"<% if (classifier.getClassifier().getClass() == NaiveBayes.class) out.print("selected=''");%>>Naive Baesian</option>
-                                                            <option value="Random Forest"<% if (classifier.getClassifier().getClass() == RandomForest.class) out.print("selected=''");%>>Random Forest</option>
+                                                            <option value="Decision Table Majority" <% if (classifier.getClassifier().getClass() == DecisionTable.class) out.print(" selected=''");%>>Decision Table Majority</option>
+                                                            <option value="Logistic Regression"<% if (classifier.getClassifier().getClass() == Logistic.class) out.print(" selected=''");%>>Logistic Regression</option>
+                                                            <option value="Multi Layer Perceptron"<% if (classifier.getClassifier().getClass() == MultilayerPerceptron.class) out.print(" selected=''");%>>Multi Layer Perceptron</option>
+                                                            <option value="Naive Baesian"<% if (classifier.getClassifier().getClass() == NaiveBayes.class) out.print(" selected=''");%>>Naive Baesian</option>
+                                                            <option value="Random Forest"<% if (classifier.getClassifier().getClass() == RandomForest.class) out.print(" selected=''");%>>Random Forest</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-3 col-sm-6 col-xs-12 col-md-offset-3">
@@ -242,7 +242,7 @@
                                                     <th>Classifier</th>
                                                     <% if(model.getType().equals("CodeSmellDetection")) {out.print("<th>Smell</th>");} %>
                                                     <th class="column-title">Date </th>
-                                                    </th>
+                                                    
                                                     <th class="bulk-actions" colspan="7">
                                                         <a class="antoo" style="color:#fff; font-weight:500;"><button type="submit" class="btn btn-primary">Compare</button> ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
                                                     </th>
@@ -434,56 +434,7 @@
         $('#newPred').on('click', function () {
             mySubmit();
         });
-        //message
-        $("#btn_confirm").on("click", function(){
-            
-            var github = $("#githubConf").text();
-            var issueTracker = $("#issueTrackerConf").text();
-            var issueTrackerURL = $("#issueTrackerURLConf").text();
-            var metric_1 = $("#metricsConf").text();
-            var metrics = metric_1.split("; ");
-            metrics.splice(-1,1);
-            var classifier = $("#heard").val();
-            $.ajax({
-                   type: 'Post',
-                   url: "http://localhost:8080/PrimeLabServer/BuildModelServlet", data:{
-                github : github,
-                issueTracker : issueTrackerURL,
-                metrics : metrics,
-                classifier : classifier
-            }, success: function(data) {
-                var mex = "";
-                if(succes === 200) {
-                    mex="We\'ll send you an a e-mail when the<br> evalutation will be completed";
-                } else {
-                    mex="error";
-                }
-                console.log(success);
-                $("#success-alert").css("position","fixed");
-                $("#success-alert").css("top","30px");
-                $("#success-alert").css("right","30px");
-                $("#success-alert").css("whidt","100px");
-                $("#success-alert").css("display","block");
-                $("#success-alert").html($("<strong>"+mex+"</strong>"));
-                setTimeout(function() {
-                        $("#success-alert").css("display","none");
-                //$("#success-alert").alert('close');
-            }, 2000);
-            }, traditional: true});
-            if ($("input#email").val() !== "") {
-                var mex="We\'ll send you an a e-mail when the<br> evalutation will be completed";
-                $("#success-alert").css("position","fixed");
-                $("#success-alert").css("top","30px");
-                $("#success-alert").css("right","30px");
-                $("#success-alert").css("whidt","100px");
-                $("#success-alert").css("display","block");
-                $("#success-alert").html($("<strong>"+mex+"</strong>"));
-                setTimeout(function() {
-                        $("#success-alert").css("display","none");
-                //$("#success-alert").alert('close');
-            }, 2000);
-            }
-        });
+        
         
 //        function enable_cb(input) {
 //            if (this.checked) {

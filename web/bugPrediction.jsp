@@ -203,7 +203,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="all" id="all_Process"_metrics" value="" class="flat">
+                                                                    <input type="checkbox" name="all" id="all_Process" value="" class="flat">
                                                                     <label class="custom-control-label" for="check1">All</label>
                                                                   </div>
                                                                 </li>
@@ -332,7 +332,7 @@
 
                                                             </div>
                                                         </div>
-                                                                    
+                                                                    <script src="scripts/jquery.js"></script>
                                                                     <script>
     var isModalOnFocus = false;
     function mySubmit() {
@@ -356,4 +356,57 @@
     function onModalClose(){
         document.getElementById("bottomModal").innerHTML = '';
     }
+    
+    $(document).ready(function () {
+        //message
+        $("#btn_confirm").on("click", function(){
+            
+            var github = $("#githubConf").text();
+            var issueTracker = $("#issueTrackerConf").text();
+            var issueTrackerURL = $("#issueTrackerURLConf").text();
+            var metric_1 = $("#metricsConf").text();
+            var metrics = metric_1.split("; ");
+            metrics.splice(-1,1);
+            var classifier = $("#heard").val();
+            $.ajax({
+                   type: 'Post',
+                   url: "http://localhost:8080/PrimeLabServer/BuildModelServlet", data:{
+                github : github,
+                issueTracker : issueTrackerURL,
+                metrics : metrics,
+                classifier : classifier
+            }, success: function(data) {
+                var mex = "";
+                if(succes === 200) {
+                    mex="We\'ll send you an a e-mail when the<br> evalutation will be completed";
+                } else {
+                    mex="error";
+                }
+                console.log(success);
+                $("#success-alert").css("position","fixed");
+                $("#success-alert").css("top","30px");
+                $("#success-alert").css("right","30px");
+                $("#success-alert").css("whidt","100px");
+                $("#success-alert").css("display","block");
+                $("#success-alert").html($("<strong>"+mex+"</strong>"));
+                setTimeout(function() {
+                        $("#success-alert").css("display","none");
+                //$("#success-alert").alert('close');
+            }, 2000);
+            }, traditional: true});
+            if ($("input#email").val() !== "") {
+                var mex="We\'ll send you an a e-mail when the<br> evalutation will be completed";
+                $("#success-alert").css("position","fixed");
+                $("#success-alert").css("top","30px");
+                $("#success-alert").css("right","30px");
+                $("#success-alert").css("whidt","100px");
+                $("#success-alert").css("display","block");
+                $("#success-alert").html($("<strong>"+mex+"</strong>"));
+                setTimeout(function() {
+                        $("#success-alert").css("display","none");
+                //$("#success-alert").alert('close');
+            }, 2000);
+            }
+        });
+    });
 </script>

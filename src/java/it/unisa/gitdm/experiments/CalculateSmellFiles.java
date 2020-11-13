@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -37,6 +39,11 @@ public class CalculateSmellFiles {
     
     public CalculateSmellFiles(String projectName, String smell, String version) {
         System.out.println("Start CalculateSmellFile");
+        Pattern p = Pattern.compile("(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$");
+        Matcher m = p.matcher(version);
+        m.find();
+        System.out.println(m.group());
+        version = m.group();
         smell = smell.replace(" ", "_");
         String path = buildPath(projectName, version);
         System.out.println("smell: " + smell);

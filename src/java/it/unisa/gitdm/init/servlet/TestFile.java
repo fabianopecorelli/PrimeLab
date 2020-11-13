@@ -65,6 +65,7 @@ public class TestFile {
         String periodLength = "All";
         String baseFolderPath = "C:/ProgettoTirocinio/gitdm/";
         String scatteringFolderPath = "C:/ProgettoTirocinio/gitdm/scattering/";
+        String version = "rel/1.8.3";
         
         ArrayList<Metric> metrics = new ArrayList<Metric>();
         metrics.add(new WMC());
@@ -135,7 +136,7 @@ public class TestFile {
                 Git.clean(new File(projectPath));
            //     Git.gitCheckout(new File(projectPath), c, workTreeFolder);
 
-                List<FileBean> repoFiles = Git.gitList(new File(projectPath));
+                List<FileBean> repoFiles = Git.gitList(new File(projectPath), version);
                 System.out.println("Repo size: "+repoFiles.size());
                 for (FileBean file : repoFiles) {
 
@@ -218,6 +219,7 @@ public class TestFile {
             Project p1 = new Project("https://github.com/apache/ant.git");
             p1.setModels(models);
             p1.setName("ant");
+            p1.setVersion(version);
             
             ArrayList<Project> projects;
             //projects.add(p1);

@@ -12,13 +12,17 @@ import it.unisa.gitdm.source.Git;
 import it.unisa.primeLab.Config;
 import it.unisa.primeLab.ProjectHandler;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,15 +30,28 @@ import java.util.ArrayList;
  */
 public class Console {
     public static void main(String[] args) throws FileNotFoundException, IOException, InterruptedException {
-        String path = "C:/ProgettoTirocinio/dataset/apache-ant-data/apache_1.8.3/Validated";
-        CalculateSmellFiles cs = new CalculateSmellFiles("ant", "Large Class", "1.8.1");
-//        String url = "https://github.com/apache/nutch.git";
-//        String projectName = "nutch";
-//        String dir = "C:/weka";
-//        String version = "branch-1.4";
-//        Git.clone(url, false, projectName, dir, version);
+        viewAll();
     }
     
+    private static void viewAll() {
+        ArrayList<Project> allProjects = null;
+        try {
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(Config.baseDir + "projects.txt"));
+            allProjects = (ArrayList<Project>) in.readObject();
+            in.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ProjectHandler.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ProjectHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        for(Project p : allProjects) {
+            for(Model m : p.getModels()) {
+                System.out.println(p.getName() + " -->" + p.getVersion());
+                System.out.println(m);
+            }
+        }
+    }
     private static void deleteModel(String modelName) throws FileNotFoundException, IOException {
         
         ArrayList<Project> projects;

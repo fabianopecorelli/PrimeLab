@@ -4,11 +4,13 @@
     Author     : giuse
 --%>
 
+<%@page import="it.unisa.gitdm.bean.Project"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="it.unisa.gitdm.bean.Metric"%>
 <%@page import="it.unisa.gitdm.bean.Model"%>
 <%session.setAttribute("typePrediction", "CodeSmellDetection"); %>
 <% Model model = (Model) session.getAttribute("modello");%>
+<%Project project = (Project) session.getAttribute("project"); %>
 <%
     String metricOfModel = "";
     for (Metric m : model.getMetrics()) {
@@ -159,7 +161,7 @@
                                                                 <li class="list-group-item">
                                                                   <!-- Default checked -->
                                                                   <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" name="all" id="all_Process"_metrics" value="" class="flat">
+                                                                    <input type="checkbox" name="all" id="all_Process" value="" class="flat">
                                                                     <label class="custom-control-label" for="check1">All</label>
                                                                   </div>
                                                                 </li>
@@ -296,13 +298,13 @@
 
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" onclick="onModalClose()" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-success">Confirm</button>
+                                                <button id="btn_confirm" type="button" class="btn btn-success"   data-dismiss="modal">Confirm</button>
                                             </div>
                                         </div>
 
                                     </div>
                                 </div>
-                                    
+                                    <script src="scripts/jquery.js"></script>
                                     <script>
     
     isModalOnFocus = false;
@@ -314,15 +316,15 @@
         }
     }
     function createModal(){
-        document.getElementById("githubConf").innerHTML = $('#github').val();
-        document.getElementById("versionConf").innerHTML = $('#version').val();
+        document.getElementById("githubConf").innerHTML = "<%out.print(model.getProjURL()); %>";
+        document.getElementById("versionConf").innerHTML = "<%out.print(project.getVersion()); %>";
         var metrics = document.getElementById("metricsConf");
         metrics.innerHTML='';
         $('input[name="metrics"]').each(function () {
             metrics.innerHTML += (this.checked ? $(this).val()+"; " : "");
        });
        document.getElementById("smellConf").innerHTML = $('#smell').val();
-        document.getElementById("classifierConf").innerHTML = $('#classifier').val();
+        document.getElementById("classifierConf").innerHTML = $('#heard').val();
         document.getElementById("bottomModal").innerHTML = '<input type = "email" id = "email"  required="required" class = "form-control" >';
         $('#myModal').modal();
     }
@@ -330,33 +332,58 @@
         isModalOnFocus = false;
         document.getElementById("bottomModal").innerHTML = '';
     }
+
     $(document).ready(function () {
-        $.listen('parsley:field:validate', function () {
-            validateFront();
-        });
-        $('#btnOpenModal').on('click', function () {
-            $('#demo-form2').parsley().validate();
-            validateFront();
-            console.log("ok");
-            if (!isModalOnFocus){
-                mySubmit();
+        //message
+        $("#btn_confirm").on("click", function(){
+            
+            var github = $("#githubConf").text();
+            var version = $("#versionConf").text();
+            var smell = $("#smellConf").text();
+            var metric_1 = $("#metricsConf").text();
+            var metrics = metric_1.split("; ");
+            metrics.splice(-1,1);
+            var classifier = $("#heard").val();
+            $.ajax({
+                   type: 'Post',
+                   url: "http://localhost:8080/PrimeLabServer/BuildModelServlet", data:{
+                github : github,
+                version : version,
+                smell : smell,
+                metrics : metrics,
+                classifier : classifier
+            }, success: function(data) {
+                var mex = "";
+                if(succes === 200) {
+                    mex="We\'ll send you an a e-mail when the<br> evalutation will be completed";
+                } else {
+                    mex="error";
+                }
+                console.log(success);
+                $("#success-alert").css("position","fixed");
+                $("#success-alert").css("top","30px");
+                $("#success-alert").css("right","30px");
+                $("#success-alert").css("whidt","100px");
+                $("#success-alert").css("display","block");
+                $("#success-alert").html($("<strong>"+mex+"</strong>"));
+                setTimeout(function() {
+                        $("#success-alert").css("display","none");
+                //$("#success-alert").alert('close');
+            }, 2000);
+            }, traditional: true});
+            if ($("input#email").val() !== "") {
+                var mex="We\'ll send you an a e-mail when the<br> evalutation will be completed";
+                $("#success-alert").css("position","fixed");
+                $("#success-alert").css("top","30px");
+                $("#success-alert").css("right","30px");
+                $("#success-alert").css("whidt","100px");
+                $("#success-alert").css("display","block");
+                $("#success-alert").html($("<strong>"+mex+"</strong>"));
+                setTimeout(function() {
+                        $("#success-alert").css("display","none");
+                //$("#success-alert").alert('close');
+            }, 2000);
             }
         });
-        var validateFront = function () {
-            if (true === $('#demo-form2').parsley().isValid()) {
-                $('.bs-callout-warning').addClass('hidden');
-                $('.bs-callout-info').removeClass('hidden');
-            } else {
-                $('.bs-callout-info').addClass('hidden');
-                $('.bs-callout-warning').removeClass('hidden');
-            }
-        };
     });
-    try {
-        hljs.initHighlightingOnLoad();
-    } catch (err) {
-    }
-    function selectAll() {
-        console.log("OK");
-    }
 </script>

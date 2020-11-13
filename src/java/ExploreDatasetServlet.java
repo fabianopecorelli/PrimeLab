@@ -58,6 +58,7 @@ public class ExploreDatasetServlet extends HttpServlet {
 //
 //        });
         session.setAttribute("models", models);
+        session.setAttribute("projects", allProj);
         ServletContext sc = getServletContext();
         RequestDispatcher rd = sc.getRequestDispatcher("/exploreDatasets.jsp");
         rd.forward(request, response);

@@ -31,7 +31,7 @@ public class Git {
             if (isSVN) {
                 cmd = new String[]{"git", "svn", "clone", url, projectName};
             } else {
-                if(version != null) {
+                if(version != null || !version.equals("")) {
                     cmd = new String[]{"git", "clone", url, projectName, "--branch", version};
                 } else {
                     cmd = new String[]{"git", "clone", url, projectName};
@@ -361,12 +361,16 @@ public class Git {
         return files;
     }
     
-    public static List<FileBean> gitList(File directory) {
+    public static List<FileBean> gitList(File directory, String version) {
         String dir = directory.getAbsolutePath() + "/.git";
+        dir = dir.replace("\\", "/");
         ArrayList<FileBean> files = new ArrayList<>();
         String line;
-
-        String cmd = "git --git-dir " + dir + " ls-tree -r master --name-only";
+        
+        if(version == null || version.equals("")) {
+            version = "master";
+        }
+        String cmd = "git --git-dir " + dir + " ls-tree -r " + version + " --name-only";
 
         try {
             Process p = Runtime.getRuntime().exec(cmd);
@@ -383,6 +387,7 @@ public class Git {
 
     public static void gitReset(File directory) {
         String dir = directory.getAbsolutePath() + "/.git";
+        dir = dir.replace("\\", "/");
 
         String[] cmd = new String[]{"git", "--git-dir", dir, "reset --hard origin/HEAD"};
 
@@ -452,6 +457,7 @@ public class Git {
 
     public static void clean(File directory) {
         String dir = directory.getAbsolutePath() + "/.git";
+        dir = dir.replace("\\", "/");
         String[] cmd = new String[]{"git", "--git-dir", dir, "gc"};
 
         Process p = null;
