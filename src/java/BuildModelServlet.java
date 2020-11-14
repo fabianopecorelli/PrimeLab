@@ -152,11 +152,7 @@ public class BuildModelServlet extends HttpServlet {
         try {
             ProjectHandler.setCurrentProject(curr);
             curr = ProjectHandler.getCurrentProject();
-            if(curr.getName().equals(ProjectHandler.getCurrentProject().getName())) {
-                models = ProjectHandler.getCurrentProject().getModels();
-            } else {
-                models = new ArrayList<Model>();
-            }
+            models = ProjectHandler.getCurrentProject().getModels();
             issueTracker = request.getParameterValues("issueTracker")[0];
         } catch(NullPointerException e) {
             curr = new Project(github);

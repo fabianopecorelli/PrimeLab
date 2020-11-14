@@ -46,6 +46,8 @@ public class ProjectHandler {
         }
         if (allProjects.contains(newProject)) {
             currentProject = allProjects.get(allProjects.indexOf(newProject));
+        } else {
+            currentProject = null;
         }
     }
 
